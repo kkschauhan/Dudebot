@@ -3,9 +3,40 @@
 <head>
   <meta charset="utf-8">
   <title>DudeBot</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; }
+    #messages { border: 1px solid #ccc; padding: 1rem; height: 400px; overflow-y: auto; margin-bottom: 1rem; background-color: #f7f7f7; }
+    .user { color: #00529B; }
+    .bot { color: #4F8A10; }
+    form { display: flex; }
+    #user-input { flex: 1; padding: 0.5rem; }
+    button { padding: 0.5rem 1rem; margin-left: 0.5rem; }
+  </style>
 </head>
 <body>
   <h1>DudeBot</h1>
-  <p>Welcome to DudeBot. This is a minimal client placeholder.</p>
+  <div id="messages"></div>
+  <form id="chat-form">
+    <input id="user-input" placeholder="Type your message..." required />
+    <button type="submit">Send</button>
+  </form>
+  <script>
+    const form=document.getElementById('chat-form');
+    const input=document.getElementById('user-input');
+    const messages=document.getElementById('messages');
+    function addMsg(text,cls){const div=document.createElement('div');div.className=cls;div.textContent=text;messages.appendChild(div);messages.scrollTop=messages.scrollHeight;}
+    form.onsubmit=async e=>{
+      e.preventDefault();
+      const text=input.value.trim();
+      if(!text) return;
+      addMsg('You: '+text,'user');
+      input.value='';
+      try{
+        const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});
+        const data=await res.json();
+        addMsg('Bot: '+(data.reply||data.message||'Error'),'bot');
+      }catch(err){addMsg('Error: '+err.message,'bot');}
+    };
+  </script>
 </body>
 </html>
