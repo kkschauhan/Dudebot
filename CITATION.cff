@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: DudeBot
+message: "If you use DudeBot, please cite it as below."
+type: software
+authors:
+  - family-names: Garg
+    given-names: Shreya
+    affiliation: American Express
+    orcid: "0000-0000-0000-0000"
+  - family-names: Chauhan
+    given-names: Kshitij Kumar Singh
+    affiliation: American Express
+    orcid: "0000-0000-0000-0000"
+repository-code: "https://github.com/kkschauhan/DudeBot"
+license: MIT
+version: "1.0.0"
+date-released: "2025-09-03"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.TBD"
