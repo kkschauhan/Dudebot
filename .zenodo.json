@@ -1,0 +1,14 @@
+{
+  "title": "DudeBot",
+  "creators": [
+    {"name": "Garg, Shreya", "affiliation": "American Express", "orcid": "0000-0000-0000-0000"},
+    {"name": "Chauhan, Kshitij Kumar Singh", "affiliation": "American Express", "orcid": "0000-0000-0000-0000"}
+  ],
+  "description": "DudeBot is an agentic AI assistant for enterprise workflows with retrieval-augmented QA, safe tool use, and an evaluation harness.",
+  "keywords": ["agent", "RAG", "tool use", "enterprise assistant"],
+  "access_right": "open",
+  "license": "MIT",
+  "upload_type": "software",
+  "related_identifiers": [],
+  "notes": "Archived from GitHub release v1.0.0"
+}
