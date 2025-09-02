@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Schedule meeting",
+    "input": "Schedule a 30 minute project sync with Shreya next week and include the doc summary and link."
+  },
+  {
+    "name": "Document Q&A",
+    "input": "Summarize the attached policy document and highlight any renewal dates and coverage amounts."
+  },
+  {
+    "name": "Email triage",
+    "input": "Draft a polite reply to the latest email from our vendor confirming receipt of the invoices and ask for the updated delivery schedule."
+  },
+  {
+    "name": "Create reminder",
+    "input": "Remind me to submit the quarterly compliance report by 5\u202fPM on Friday."
+  },
+  {
+    "name": "Task assignment",
+    "input": "Assign a task to John to prepare a presentation on our Q3 KPIs by next Monday."
+  }
+]
