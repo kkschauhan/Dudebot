@@ -1,0 +1,7 @@
+{
+  "name": "dudebot-client",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "mkdir -p build && cp index.html build/index.html"
+  }
+}
