@@ -219,6 +219,25 @@ const knowledgeBase = {
             meditation: "24/7, booking via FacilityApp"
           }
         }
+      },
+      {
+        id: "dudebot-info",
+        title: "DudeBot Information",
+        category: "General",
+        tags: ["dudebot", "assistant", "ai", "creator", "name", "malik"],
+        content: {
+          creator: "My maalik created and named me DudeBot",
+          purpose: "I am an enterprise AI assistant designed to help with workplace queries and policies",
+          capabilities: [
+            "Answer questions about HR policies",
+            "Provide IT support information", 
+            "Help with benefits and facilities",
+            "Voice input support",
+            "Source citations for all answers"
+          ],
+          name_origin: "My maalik gave me the name DudeBot when he created me",
+          name_reason: "You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!"
+        }
       }
     ],
   
@@ -331,7 +350,16 @@ const knowledgeBase = {
     "guest house booking": "Through HR Portal > Services > Guest House. Subject to availability, 3 days maximum.",
     "salary advance": "HR Portal > Compensation > Salary Advance. Max 2 months salary, 0% interest, 12-month repayment.",
     "mobile reimbursement": "Monthly bill up to ₹1,500 for voice and data. Submit bills quarterly.",
-    "safety issues": "Email safety@company.internal or call ext. 9999. Anonymous reporting available."
+    "safety issues": "Email safety@company.internal or call ext. 9999. Anonymous reporting available.",
+    "who named you": "My maalik named me DudeBot!",
+    "who created you": "My maalik created me and named me DudeBot!",
+    "who made you": "My maalik made me and gave me the name DudeBot!",
+    "your creator": "My maalik is my creator and the one who named me DudeBot!",
+    "your name": "My name is DudeBot, given to me by my maalik!",
+    "why named dudebot": "You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!",
+    "why dudebot name": "You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!",
+    "why this name": "You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!",
+    "why called dudebot": "You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!"
   };
   
   // Contact directory
@@ -351,9 +379,13 @@ const knowledgeBase = {
   function processQuery(query) {
     const queryLower = query.toLowerCase();
     
-    // Check FAQs first
+    // Check FAQs first with improved matching
     for (const [key, answer] of Object.entries(faqs)) {
-      if (queryLower.includes(key)) {
+      // Check for exact phrase match or key words
+      if (queryLower.includes(key) || 
+          (key.includes('who') && (queryLower.includes('who') && queryLower.includes('named'))) ||
+          (key.includes('creator') && (queryLower.includes('creator') || queryLower.includes('created') || queryLower.includes('made'))) ||
+          (key.includes('name') && queryLower.includes('name'))) {
         return { type: 'faq', answer };
       }
     }
