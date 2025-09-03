@@ -34,13 +34,14 @@ app.post('/api/chat', async (req, res) => {
     const knowledgeResult = processQuery(userMessage);
     
     // Build context for the AI model
-    let systemPrompt = `You are DudeBot, an enterprise AI assistant for workplace queries. You provide accurate, helpful information based on the company's knowledge base.`;
+    let systemPrompt = `You are DudeBot, an enterprise AI assistant for workplace queries. You provide accurate, helpful information based on the company's knowledge base. Always format your responses using markdown for better readability. Use **bold** for important terms, *italics* for emphasis, and bullet points with * for lists.`;
     
     let context = '';
     let sources = [];
     
     if (knowledgeResult.type === 'document') {
-      context = `Relevant information from ${knowledgeResult.document}:\n${JSON.stringify(knowledgeResult.answer, null, 2)}`;
+      const formattedAnswer = knowledgeBase.formatAsMarkdown(knowledgeResult.answer);
+      context = `Relevant information from ${knowledgeResult.document}:\n${formattedAnswer}`;
       sources.push({
         title: knowledgeResult.document,
         confidence: Math.round(knowledgeResult.confidence * 100),

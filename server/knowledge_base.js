@@ -267,28 +267,58 @@ const knowledgeBase = {
       return this.documents.filter(doc => doc.category === category);
     },
   
-    // Extract answer from document content
-    extractAnswer: function(docId, query) {
-      const doc = this.getDocument(docId);
-      if (!doc) return null;
-      
-      // This is a simplified extraction - you can enhance with better NLP
-      const queryLower = query.toLowerCase();
-      
-      // Check for specific keywords and return relevant sections
-      if (queryLower.includes('password')) {
-        return doc.content.password_reset;
-      }
-      if (queryLower.includes('leave') && queryLower.includes('balance')) {
-        return "Login to HR Portal > My Profile > Leave Balance. Updated real-time.";
-      }
-      if (queryLower.includes('address') && queryLower.includes('cab')) {
-        return doc.content.cab_service?.address_update;
-      }
-      
-      // Return full content if no specific match
-      return doc.content;
+      // Extract answer from document content
+  extractAnswer: function(docId, query) {
+    const doc = this.getDocument(docId);
+    if (!doc) return null;
+    
+    // This is a simplified extraction - you can enhance with better NLP
+    const queryLower = query.toLowerCase();
+    
+    // Check for specific keywords and return relevant sections
+    if (queryLower.includes('password')) {
+      return doc.content.password_reset;
     }
+    if (queryLower.includes('leave') && queryLower.includes('balance')) {
+      return "Login to HR Portal > My Profile > Leave Balance. Updated real-time.";
+    }
+    if (queryLower.includes('address') && queryLower.includes('cab')) {
+      return doc.content.cab_service?.address_update;
+    }
+    
+    // Return full content if no specific match
+    return doc.content;
+  },
+
+  // Format content as markdown for better presentation
+  formatAsMarkdown: function(content) {
+    if (typeof content === 'string') {
+      return content;
+    }
+    
+    let markdown = '';
+    
+    for (const [key, value] of Object.entries(content)) {
+      const formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      markdown += `**${formattedKey}:**\n`;
+      
+      if (Array.isArray(value)) {
+        value.forEach(item => {
+          markdown += `* ${item}\n`;
+        });
+      } else if (typeof value === 'object' && value !== null) {
+        for (const [subKey, subValue] of Object.entries(value)) {
+          const formattedSubKey = subKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          markdown += `* **${formattedSubKey}:** ${subValue}\n`;
+        }
+      } else {
+        markdown += `${value}\n`;
+      }
+      markdown += '\n';
+    }
+    
+    return markdown;
+  }
   };
   
   // FAQ responses
