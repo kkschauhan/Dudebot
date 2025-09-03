@@ -390,6 +390,15 @@ const knowledgeBase = {
       }
     }
     
+    // Special handling for specific questions
+    if (queryLower.includes('who') && queryLower.includes('named') && queryLower.includes('you')) {
+      return { type: 'faq', answer: 'My maalik' };
+    }
+    
+    if (queryLower.includes('why') && (queryLower.includes('named') || queryLower.includes('name')) && queryLower.includes('you')) {
+      return { type: 'faq', answer: 'You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!' };
+    }
+    
     // Search documents
     const searchResults = knowledgeBase.search(query);
     if (searchResults.length > 0) {
