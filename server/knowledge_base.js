@@ -241,39 +241,138 @@ const knowledgeBase = {
       }
     ],
   
-    // Search function to find relevant documents
+    // Enhanced search function with better matching
     search: function(query) {
       const queryLower = query.toLowerCase();
       const results = [];
       
+      // Extract key terms from query
+      const queryTerms = this.extractKeyTerms(queryLower);
+      
       this.documents.forEach(doc => {
         let score = 0;
+        let matchedTerms = [];
         
-        // Check title match
-        if (doc.title.toLowerCase().includes(queryLower)) {
-          score += 10;
-        }
-        
-        // Check tags match
-        doc.tags.forEach(tag => {
-          if (queryLower.includes(tag) || tag.includes(queryLower)) {
-            score += 5;
+        // Check title match (highest priority)
+        const titleLower = doc.title.toLowerCase();
+        queryTerms.forEach(term => {
+          if (titleLower.includes(term)) {
+            score += 15;
+            matchedTerms.push(term);
           }
         });
         
-        // Check content match (simplified)
-        const contentStr = JSON.stringify(doc.content).toLowerCase();
-        if (contentStr.includes(queryLower)) {
-          score += 3;
-        }
+        // Check tags match (high priority)
+        doc.tags.forEach(tag => {
+          queryTerms.forEach(term => {
+            if (tag.includes(term) || term.includes(tag)) {
+              score += 8;
+              if (!matchedTerms.includes(term)) matchedTerms.push(term);
+            }
+          });
+        });
+        
+        // Check content match with semantic understanding
+        const contentScore = this.calculateContentScore(doc.content, queryTerms);
+        score += contentScore.score;
+        matchedTerms = matchedTerms.concat(contentScore.matchedTerms);
+        
+        // Check category relevance
+        const categoryScore = this.getCategoryScore(doc.category, queryTerms);
+        score += categoryScore;
         
         if (score > 0) {
-          results.push({ ...doc, score });
+          results.push({ 
+            ...doc, 
+            score,
+            matchedTerms: [...new Set(matchedTerms)],
+            relevance: this.calculateRelevance(score, matchedTerms.length)
+          });
         }
       });
       
-      // Sort by score
-      return results.sort((a, b) => b.score - a.score);
+      // Sort by score and relevance
+      return results.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return b.relevance - a.relevance;
+      });
+    },
+
+    // Extract key terms from query
+    extractKeyTerms: function(query) {
+      // Remove common words and extract meaningful terms
+      const stopWords = ['what', 'how', 'where', 'when', 'why', 'who', 'is', 'are', 'am', 'do', 'does', 'did', 'can', 'could', 'would', 'should', 'will', 'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'my', 'your', 'our', 'their', 'i', 'you', 'we', 'they', 'me', 'him', 'her', 'us', 'them'];
+      
+      return query
+        .split(/\s+/)
+        .filter(term => term.length > 2 && !stopWords.includes(term))
+        .map(term => term.replace(/[^\w]/g, '')); // Remove punctuation
+    },
+
+    // Calculate content score with semantic understanding
+    calculateContentScore: function(content, queryTerms) {
+      let score = 0;
+      let matchedTerms = [];
+      const contentStr = JSON.stringify(content).toLowerCase();
+      
+      // Direct term matches
+      queryTerms.forEach(term => {
+        if (contentStr.includes(term)) {
+          score += 5;
+          matchedTerms.push(term);
+        }
+      });
+      
+      // Semantic matches for common workplace terms
+      const semanticMappings = {
+        'benefit': ['insurance', 'health', 'medical', 'flexible', 'compensation'],
+        'transport': ['cab', 'shuttle', 'commute', 'travel', 'address'],
+        'password': ['reset', 'login', 'account', 'security'],
+        'leave': ['vacation', 'holiday', 'time off', 'absence'],
+        'remote': ['wfh', 'work from home', 'hybrid', 'flexible'],
+        'it': ['computer', 'laptop', 'software', 'technical', 'helpdesk'],
+        'hr': ['human resources', 'employee', 'policy', 'benefits']
+      };
+      
+      queryTerms.forEach(term => {
+        if (semanticMappings[term]) {
+          semanticMappings[term].forEach(semanticTerm => {
+            if (contentStr.includes(semanticTerm)) {
+              score += 3;
+              if (!matchedTerms.includes(term)) matchedTerms.push(term);
+            }
+          });
+        }
+      });
+      
+      return { score, matchedTerms };
+    },
+
+    // Get category relevance score
+    getCategoryScore: function(category, queryTerms) {
+      const categoryMappings = {
+        'HR': ['benefit', 'leave', 'vacation', 'policy', 'employee', 'hr'],
+        'IT': ['password', 'computer', 'laptop', 'software', 'technical', 'it'],
+        'Operations': ['remote', 'wfh', 'work', 'office', 'hybrid'],
+        'Facilities': ['transport', 'cab', 'shuttle', 'office', 'cafeteria', 'gym'],
+        'General': ['contact', 'email', 'phone', 'support']
+      };
+      
+      const categoryTerms = categoryMappings[category] || [];
+      let score = 0;
+      
+      queryTerms.forEach(term => {
+        if (categoryTerms.includes(term)) {
+          score += 2;
+        }
+      });
+      
+      return score;
+    },
+
+    // Calculate overall relevance
+    calculateRelevance: function(score, matchedTermsCount) {
+      return (score * 0.7) + (matchedTermsCount * 2);
     },
   
     // Get specific document by ID
@@ -286,34 +385,138 @@ const knowledgeBase = {
       return this.documents.filter(doc => doc.category === category);
     },
   
-      // Extract answer from document content
-  extractAnswer: function(docId, query) {
-    const doc = this.getDocument(docId);
-    if (!doc) return null;
-    
-    // This is a simplified extraction - you can enhance with better NLP
-    const queryLower = query.toLowerCase();
-    
-    // Check for specific keywords and return relevant sections
-    if (queryLower.includes('password') || queryLower.includes('reset')) {
-      return doc.content.password_reset || doc.content;
-    }
-    if (queryLower.includes('leave') && queryLower.includes('balance')) {
-      return "Login to HR Portal > My Profile > Leave Balance. Updated real-time.";
-    }
-    if (queryLower.includes('address') && (queryLower.includes('cab') || queryLower.includes('transport'))) {
-      return doc.content.cab_service?.address_update || doc.content;
-    }
-    if (queryLower.includes('benefit') || queryLower.includes('eligible')) {
-      return doc.content.flexible_benefits || doc.content;
-    }
-    if (queryLower.includes('transport') || queryLower.includes('cab') || queryLower.includes('shuttle')) {
-      return doc.content.cab_service || doc.content;
-    }
-    
-    // Return full content formatted as markdown if no specific match
-    return this.formatAsMarkdown(doc.content);
-  },
+        // Intelligent answer extraction with context understanding
+    extractAnswer: function(docId, query) {
+      const doc = this.getDocument(docId);
+      if (!doc) return null;
+      
+      const queryLower = query.toLowerCase();
+      const queryTerms = this.extractKeyTerms(queryLower);
+      
+      // Try to find the most relevant section based on query intent
+      const relevantSection = this.findRelevantSection(doc.content, queryTerms, queryLower);
+      
+      if (relevantSection) {
+        return this.formatAsMarkdown(relevantSection);
+      }
+      
+      // Fallback: return formatted full content
+      return this.formatAsMarkdown(doc.content);
+    },
+
+    // Find the most relevant section of content based on query
+    findRelevantSection: function(content, queryTerms, queryLower) {
+      // Define query patterns and their corresponding content sections
+      const queryPatterns = {
+        // Password/Login related
+        password: ['password_reset', 'login', 'account', 'security'],
+        reset: ['password_reset', 'reset', 'recovery'],
+        login: ['password_reset', 'login', 'access'],
+        
+        // Benefits related
+        benefit: ['flexible_benefits', 'benefits', 'insurance', 'health'],
+        eligible: ['flexible_benefits', 'benefits', 'eligibility'],
+        insurance: ['flexible_benefits', 'health', 'medical'],
+        
+        // Leave related
+        leave: ['annual_leave', 'sick_leave', 'special_leave', 'leave_policy'],
+        vacation: ['annual_leave', 'leave_policy'],
+        sick: ['sick_leave', 'medical'],
+        balance: ['annual_leave', 'leave_policy'],
+        
+        // Transport related
+        transport: ['cab_service', 'shuttle_service', 'transportation'],
+        cab: ['cab_service', 'transportation'],
+        shuttle: ['shuttle_service', 'transportation'],
+        address: ['cab_service', 'address_update'],
+        commute: ['cab_service', 'shuttle_service', 'transportation'],
+        
+        // Remote work related
+        remote: ['hybrid_model', 'full_remote', 'work_from_anywhere'],
+        wfh: ['hybrid_model', 'full_remote', 'work_from_anywhere'],
+        home: ['hybrid_model', 'full_remote', 'work_from_anywhere'],
+        hybrid: ['hybrid_model', 'full_remote'],
+        
+        // IT related
+        laptop: ['new_laptop', 'equipment', 'hardware'],
+        computer: ['new_laptop', 'equipment', 'hardware'],
+        software: ['software_requests', 'applications'],
+        helpdesk: ['helpdesk', 'support', 'technical'],
+        
+        // Facilities related
+        office: ['office_hours', 'facilities', 'cafeteria'],
+        cafeteria: ['cafeteria', 'dining', 'food'],
+        gym: ['recreation', 'fitness', 'exercise'],
+        meeting: ['meeting_rooms', 'conference', 'facilities']
+      };
+      
+      // Find matching patterns
+      let bestMatch = null;
+      let bestScore = 0;
+      
+      queryTerms.forEach(term => {
+        if (queryPatterns[term]) {
+          queryPatterns[term].forEach(sectionKey => {
+            if (content[sectionKey]) {
+              const score = this.calculateSectionRelevance(content[sectionKey], queryTerms, queryLower);
+              if (score > bestScore) {
+                bestScore = score;
+                bestMatch = content[sectionKey];
+              }
+            }
+          });
+        }
+      });
+      
+      // If no specific section found, try to find the most relevant top-level section
+      if (!bestMatch) {
+        Object.keys(content).forEach(sectionKey => {
+          const score = this.calculateSectionRelevance(content[sectionKey], queryTerms, queryLower);
+          if (score > bestScore) {
+            bestScore = score;
+            bestMatch = content[sectionKey];
+          }
+        });
+      }
+      
+      return bestMatch;
+    },
+
+    // Calculate how relevant a section is to the query
+    calculateSectionRelevance: function(section, queryTerms, queryLower) {
+      if (!section) return 0;
+      
+      let score = 0;
+      const sectionStr = JSON.stringify(section).toLowerCase();
+      
+      // Direct term matches
+      queryTerms.forEach(term => {
+        if (sectionStr.includes(term)) {
+          score += 10;
+        }
+      });
+      
+      // Check for semantic matches
+      const semanticMatches = {
+        'benefit': ['insurance', 'health', 'medical', 'flexible'],
+        'transport': ['cab', 'shuttle', 'commute', 'travel'],
+        'password': ['reset', 'login', 'account', 'security'],
+        'leave': ['vacation', 'holiday', 'time off', 'absence'],
+        'remote': ['wfh', 'work from home', 'hybrid', 'flexible']
+      };
+      
+      queryTerms.forEach(term => {
+        if (semanticMatches[term]) {
+          semanticMatches[term].forEach(semanticTerm => {
+            if (sectionStr.includes(semanticTerm)) {
+              score += 5;
+            }
+          });
+        }
+      });
+      
+      return score;
+    },
 
   // Format content as markdown for better presentation
   formatAsMarkdown: function(content) {
@@ -343,7 +546,7 @@ const knowledgeBase = {
     }
     
     return markdown;
-  }
+    }
   };
   
   // FAQ responses
@@ -382,10 +585,10 @@ const knowledgeBase = {
   };
   
   // Helper function to process queries
-  function processQuery(query) {
+    function processQuery(query) {
     const queryLower = query.toLowerCase();
     
-    // Special handling for specific questions FIRST
+    // Special handling for specific questions FIRST (highest priority)
     if (queryLower.includes('who') && queryLower.includes('named') && queryLower.includes('you')) {
       return { type: 'faq', answer: 'My maalik' };
     }
@@ -394,45 +597,156 @@ const knowledgeBase = {
       return { type: 'faq', answer: 'You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!' };
     }
     
-    // Check FAQs with improved matching
-    for (const [key, answer] of Object.entries(faqs)) {
-      // Check for exact phrase match or key words
-      if (queryLower.includes(key) || 
-          (key.includes('who') && (queryLower.includes('who') && queryLower.includes('named'))) ||
-          (key.includes('creator') && (queryLower.includes('creator') || queryLower.includes('created') || queryLower.includes('made'))) ||
-          (key.includes('name') && queryLower.includes('name'))) {
-        return { type: 'faq', answer };
-      }
+    // Enhanced FAQ matching with better pattern recognition
+    const faqResult = findBestFAQMatch(queryLower);
+    if (faqResult) {
+      return { type: 'faq', answer: faqResult.answer };
     }
     
-    // Search documents
+    // Enhanced document search with multiple results
     const searchResults = knowledgeBase.search(query);
     if (searchResults.length > 0) {
-      const topResult = searchResults[0];
-      const answer = knowledgeBase.extractAnswer(topResult.id, query);
-      if (answer) {
-        return {
-          type: 'document',
-          document: topResult.title,
-          answer,
-          confidence: topResult.score / 10
-        };
-      }
-    }
-    
-    // Check for contact queries
-    if (queryLower.includes('contact') || queryLower.includes('email') || queryLower.includes('phone')) {
-      for (const [dept, info] of Object.entries(contacts)) {
-        if (queryLower.includes(dept)) {
-          return { type: 'contact', department: dept, ...info };
+      // Try to get the best answer from the top results
+      for (const result of searchResults.slice(0, 3)) { // Check top 3 results
+        const answer = knowledgeBase.extractAnswer(result.id, query);
+        if (answer && answer.trim().length > 10) { // Ensure we have a meaningful answer
+          return {
+            type: 'document',
+            document: result.title,
+            answer,
+            confidence: Math.min(result.score / 15, 1), // Normalize confidence
+            matchedTerms: result.matchedTerms,
+            category: result.category
+          };
         }
       }
     }
     
+    // Enhanced contact queries with better matching
+    const contactResult = findBestContactMatch(queryLower);
+    if (contactResult) {
+      return contactResult;
+    }
+    
+    // If we have some search results but no good answer, provide a helpful response
+    if (searchResults.length > 0) {
+      const topResult = searchResults[0];
+      return {
+        type: 'partial',
+        document: topResult.title,
+        answer: `I found information about ${topResult.title}, but I need more specific details. Could you please rephrase your question or be more specific about what you're looking for?`,
+        confidence: 0.3,
+        suggestions: generateSuggestions(topResult, queryLower)
+      };
+    }
+    
     return {
       type: 'unknown',
-      message: "I couldn't find specific information about that. Please try rephrasing or contact HR at ext. 3333."
+      message: "I couldn't find specific information about that. Please try rephrasing your question or contact HR at ext. 3333 for assistance."
     };
+  }
+
+  // Enhanced FAQ matching function
+  function findBestFAQMatch(queryLower) {
+    const queryTerms = knowledgeBase.extractKeyTerms(queryLower);
+    
+    // Define FAQ patterns with weights - only for very specific questions
+    const faqPatterns = [
+      {
+        patterns: ['who', 'named', 'you', 'creator', 'made', 'created'],
+        answer: 'My maalik',
+        weight: 10,
+        minScore: 15 // Require high confidence
+      },
+      {
+        patterns: ['why', 'named', 'name', 'dudebot', 'called'],
+        answer: 'You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!',
+        weight: 10,
+        minScore: 15 // Require high confidence
+      },
+      {
+        patterns: ['what', 'can', 'you', 'do', 'capabilities', 'help', 'assist'],
+        answer: 'I can help you with HR policies, IT support, benefits information, leave policies, and general workplace queries.',
+        weight: 3,
+        minScore: 8 // Lower threshold for general capability questions
+      },
+      {
+        patterns: ['how', 'use', 'voice', 'speak', 'microphone'],
+        answer: 'You can use voice input by clicking the microphone button. I support speech recognition in Chrome, Edge, and Safari browsers.',
+        weight: 5,
+        minScore: 8
+      }
+    ];
+    
+    let bestMatch = null;
+    let bestScore = 0;
+    
+    faqPatterns.forEach(pattern => {
+      let score = 0;
+      pattern.patterns.forEach(patternTerm => {
+        if (queryTerms.includes(patternTerm) || queryLower.includes(patternTerm)) {
+          score += pattern.weight;
+        }
+      });
+      
+      // Only return match if score meets minimum threshold
+      if (score >= pattern.minScore && score > bestScore) {
+        bestScore = score;
+        bestMatch = { answer: pattern.answer };
+      }
+    });
+    
+    return bestMatch;
+  }
+
+  // Enhanced contact matching function
+  function findBestContactMatch(queryLower) {
+    const queryTerms = knowledgeBase.extractKeyTerms(queryLower);
+    
+    // Define contact patterns
+    const contactPatterns = {
+      'it': ['it', 'technical', 'computer', 'laptop', 'password', 'software'],
+      'hr': ['hr', 'human resources', 'benefits', 'leave', 'policy'],
+      'transport': ['transport', 'cab', 'shuttle', 'commute', 'travel'],
+      'facilities': ['facilities', 'office', 'cafeteria', 'gym', 'meeting']
+    };
+    
+    for (const [dept, patterns] of Object.entries(contactPatterns)) {
+      let score = 0;
+      patterns.forEach(pattern => {
+        if (queryTerms.includes(pattern) || queryLower.includes(pattern)) {
+          score += 1;
+        }
+      });
+      
+      if (score > 0 && contacts[dept]) {
+        return {
+          type: 'contact',
+          department: dept,
+          ...contacts[dept],
+          confidence: Math.min(score / patterns.length, 1)
+        };
+      }
+    }
+    
+    return null;
+  }
+
+  // Generate helpful suggestions based on search results
+  function generateSuggestions(result, queryLower) {
+    const suggestions = [];
+    
+    if (result.category === 'HR') {
+      suggestions.push('Try asking about specific benefits, leave policies, or employee policies');
+    } else if (result.category === 'IT') {
+      suggestions.push('Try asking about password reset, laptop requests, or technical support');
+    } else if (result.category === 'Facilities') {
+      suggestions.push('Try asking about transport booking, office facilities, or cafeteria hours');
+    } else if (result.category === 'Operations') {
+      suggestions.push('Try asking about remote work policies, office hours, or work arrangements');
+    }
+    
+    return suggestions;
   }
   
   // Export for use in Node.js
