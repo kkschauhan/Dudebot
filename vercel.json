@@ -32,6 +32,12 @@
     }
   ],
   "env": {
-        "NODE_ENV": "production"
+    "NODE_ENV": "production"
+  },
+  "analytics": {
+    "enabled": true
+  },
+  "speedInsights": {
+    "enabled": true
   }
 }

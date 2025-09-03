@@ -6,6 +6,18 @@
     <title>DudeBot - Enterprise AI Assistant</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+    
+    <!-- Vercel Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    
+    <!-- Vercel Speed Insights -->
+    <script>
+      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
   <style>
         :root {
             --primary-color: #2563eb;
@@ -805,6 +817,13 @@
                 this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
                 localStorage.setItem('theme', this.currentTheme);
                 this.setupTheme();
+                
+                // Track theme change
+                if (window.va) {
+                    window.va('track', 'theme_changed', {
+                        theme: this.currentTheme
+                    });
+                }
             }
 
             setupVoiceRecognition() {
@@ -832,6 +851,14 @@
                             this.voiceBtn.classList.remove('recording');
                             this.voiceStatus.classList.remove('show');
                             this.voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                            
+                            // Track voice input success
+                            if (window.va) {
+                                window.va('track', 'voice_input_success', {
+                                    transcript_length: transcript.length
+                                });
+                            }
+                            
                             this.sendMessage();
                         }
                     };
@@ -964,12 +991,26 @@
                 };
                 
                 if (actions[action]) {
+                    // Track quick action usage
+                    if (window.va) {
+                        window.va('track', 'quick_action_used', {
+                            action: action
+                        });
+                    }
+                    
                     this.chatInput.value = actions[action];
                     this.sendMessage();
                 }
             }
 
             handleCategoryClick(category) {
+                // Track category click
+                if (window.va) {
+                    window.va('track', 'category_clicked', {
+                        category: category
+                    });
+                }
+                
                 this.chatInput.value = `Tell me about ${category} policies and information`;
                 this.sendMessage();
             }
@@ -977,6 +1018,14 @@
             async sendMessage() {
                 const message = this.chatInput.value.trim();
                 if (!message) return;
+
+                // Track message sent event
+                if (window.va) {
+                    window.va('track', 'message_sent', {
+                        message_length: message.length,
+                        has_voice: false
+                    });
+                }
 
                 // Clear welcome message
                 const welcomeMessage = this.chatMessages.querySelector('.welcome-message');
@@ -1006,13 +1055,36 @@
                     
                     if (data.reply) {
                         this.addMessage(data.reply, 'bot', data.sources, data.knowledgeUsed);
+                        
+                        // Track successful response
+                        if (window.va) {
+                            window.va('track', 'response_received', {
+                                has_sources: data.sources && data.sources.length > 0,
+                                knowledge_used: data.knowledgeUsed,
+                                response_length: data.reply.length
+                            });
+                        }
                     } else {
                         this.addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+                        
+                        // Track error
+                        if (window.va) {
+                            window.va('track', 'response_error', {
+                                error_type: 'no_reply'
+                            });
+                        }
                     }
                 } catch (error) {
                     this.hideTypingIndicator();
                     this.addMessage('Sorry, I\'m having trouble connecting. Please check your connection and try again.', 'bot');
                     console.error('Error:', error);
+                    
+                    // Track network error
+                    if (window.va) {
+                        window.va('track', 'response_error', {
+                            error_type: 'network_error'
+                        });
+                    }
                 } finally {
                     this.sendBtn.disabled = false;
                     this.sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
@@ -1110,6 +1182,14 @@
 
         // Initialize the app
         document.addEventListener('DOMContentLoaded', () => {
+            // Track page load
+            if (window.va) {
+                window.va('track', 'page_loaded', {
+                    user_agent: navigator.userAgent,
+                    theme: localStorage.getItem('theme') || 'light'
+                });
+            }
+            
             new DudeBot();
         });
   </script>

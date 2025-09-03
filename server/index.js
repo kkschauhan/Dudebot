@@ -63,50 +63,45 @@ app.post('/api/chat', async (req, res) => {
       });
     }
 
-    console.log('Knowledge result:', knowledgeResult);
-    console.log('Context:', context);
+    let reply = '';
+    let knowledgeUsed = knowledgeResult.type !== 'unknown';
 
-    // For FAQ responses, return directly without AI processing
+    // For FAQ responses, use the answer directly without AI processing
     if (knowledgeResult.type === 'faq') {
-      console.log('Returning FAQ answer directly:', knowledgeResult.answer);
-      return res.json({ 
-        reply: knowledgeResult.answer,
-        sources: sources.length > 0 ? sources : null,
-        knowledgeUsed: true
-      });
-    }
+      reply = knowledgeResult.answer;
+    } else {
+      // For other responses, use AI with context
+      const messages = [
+        { 
+          role: 'system', 
+          content: systemPrompt + (context ? `\n\nUse this information to answer the user's question accurately:\n${context}` : '')
+        },
+        { role: 'user', content: userMessage }
+      ];
 
-    // If we have knowledge base context, use it; otherwise, let AI handle general queries
-    const messages = [
-      { 
-        role: 'system', 
-        content: systemPrompt + (context ? `\n\nUse this information to answer the user's question accurately:\n${context}` : '')
-      },
-      { role: 'user', content: userMessage }
-    ];
-
-    const response = await axios.post(
-      'https://openrouter.ai/api/v1/chat/completions',
-      {
-        model: 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free',
-        messages,
-        max_tokens: 300,
-        temperature: 0.3
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`
+      const response = await axios.post(
+        'https://openrouter.ai/api/v1/chat/completions',
+        {
+          model: 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free',
+          messages,
+          max_tokens: 300,
+          temperature: 0.3
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`
+          }
         }
-      }
-    );
+      );
 
-    const reply = response.data.choices?.[0]?.message?.content?.trim() || '';
+      reply = response.data.choices?.[0]?.message?.content?.trim() || '';
+    }
     
     res.json({ 
       reply,
       sources: sources.length > 0 ? sources : null,
-      knowledgeUsed: knowledgeResult.type !== 'unknown'
+      knowledgeUsed
     });
   } catch (error) {
     console.error('Chat error:', error?.response?.data || error.message);
