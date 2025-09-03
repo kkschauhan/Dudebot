@@ -1,37 +1,44 @@
 # DudeBot 🤖
 
-An intelligent virtual assistant for workplace queries and task automation, built with modern web technologies and AI integration.
+An enterprise-grade AI assistant for workplace queries and task automation, built with modern web technologies and RAG (Retrieval-Augmented Generation) capabilities.
 
-## Features
+## ✨ Key Features
 
-### 🧠 Information Assistant
-- AI-powered document search and retrieval
-- Natural language query processing
-- Context-aware responses
+### 🧠 RAG-Powered Intelligence
+- **Knowledge Base Integration**: Answers based on comprehensive company policies and procedures
+- **Source Citations**: Every response includes exact sources and confidence scores
+- **Context-Aware Responses**: AI understands workplace context and provides relevant information
+- **Multi-Modal Search**: Search across HR, IT, Facilities, and Benefits documentation
 
-### 📅 Intelligent Agent Features
-- **Calendar Management**: Schedule meetings and find optimal time slots
-- **Task Automation**: Create and manage optimized to-do lists
-- **Email Integration**: Gmail API integration for email management
-- **Reminders**: Set and manage follow-ups and reminders
-- **Natural Language Processing**: Understand and execute tasks in plain English
+### 🎤 Voice & Text Interface
+- **Voice Input**: Speak your questions naturally using browser speech recognition
+- **Modern UI**: Professional, responsive design with dark/light theme support
+- **Real-time Typing Indicators**: See when DudeBot is processing your request
+- **Quick Actions**: One-click access to common workplace queries
 
-## Tech Stack
+### 📚 Comprehensive Knowledge Base
+- **HR Policies**: Leave policies, benefits, compensation, and employee procedures
+- **IT Support**: Password resets, equipment requests, software support
+- **Facilities**: Office hours, cafeteria, gym, meeting rooms, and amenities
+- **Transportation**: Cab services, parking, and commute information
+- **BYOD Policies**: Bring Your Own Device guidelines and security requirements
 
-- **Frontend**: React with TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express
-- **AI**: OpenAI API integration
-- **Database**: In-memory storage (demo) / MongoDB Atlas (production)
+## 🛠️ Tech Stack
+
+- **Frontend**: Modern HTML5, CSS3, JavaScript (ES6+)
+- **Backend**: Node.js, Express.js
+- **AI**: OpenRouter API with RAG integration
+- **Knowledge Base**: Structured JSON-based document system
+- **Voice Recognition**: Web Speech API
+- **Styling**: CSS Custom Properties with dark/light theme support
 - **Hosting**: Vercel-ready deployment
-- **Email**: Gmail API integration
 
 ## Quick Start
 
 ### Prerequisites
 - Node.js 18+ 
 - npm or yarn
-- OpenAI API key (free tier available)
-- Gmail API credentials (optional, for email features)
+- OpenRouter API key (free tier available)
 
 ### Installation
 
@@ -44,50 +51,58 @@ An intelligent virtual assistant for workplace queries and task automation, buil
 
 2. **Environment Setup:**
    ```bash
-   cp .env.example .env
-   # Edit .env with your API keys
+   # Create .env file in server directory
+   cd server
+   echo "OPENROUTER_API_KEY=your_openrouter_api_key_here" > .env
    ```
 
-3. **Start Development:**
+3. **Install Dependencies:**
+   ```bash
+   npm run install-all
+   ```
+
+4. **Start Development:**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser:**
-   - Frontend: http://localhost:3000
-   - Backend: http://localhost:5000
+5. **Open your browser:**
+   - Application: http://localhost:5000
 
 ## Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the `server` directory:
 
 ```env
-# OpenAI API
-OPENAI_API_KEY=your_openai_api_key_here
+# OpenRouter API (for AI responses)
+OPENROUTER_API_KEY=your_openrouter_api_key_here
 
-# Gmail API (optional)
-GMAIL_CLIENT_ID=your_gmail_client_id
-GMAIL_CLIENT_SECRET=your_gmail_client_secret
-GMAIL_REDIRECT_URI=http://localhost:5000/auth/gmail/callback
-
-# Server
+# Server Configuration
 PORT=5000
 NODE_ENV=development
 ```
 
-## API Endpoints
+## 🔌 API Endpoints
 
-### Chat & AI
-- `POST /api/chat` - Send message to DudeBot
-- `POST /api/tasks` - Create new task
-- `GET /api/tasks` - Get all tasks
-- `PUT /api/tasks/:id` - Update task
+### Chat & RAG
+- `POST /api/chat` - Send message to DudeBot with RAG integration
+- `GET /api/categories` - Get available knowledge base categories
+- `GET /api/search?q=query` - Search knowledge base directly
 
-### Calendar & Email
-- `GET /api/calendar/events` - Get calendar events
-- `POST /api/calendar/events` - Create calendar event
-- `GET /api/emails` - Get emails
-- `POST /api/emails/send` - Send email
+### Response Format
+```json
+{
+  "reply": "AI-generated response based on knowledge base",
+  "sources": [
+    {
+      "title": "Leave Policies",
+      "confidence": 95,
+      "type": "document"
+    }
+  ],
+  "knowledgeUsed": true
+}
+```
 
 ## Deployment
 
@@ -107,13 +122,30 @@ NODE_ENV=development
 
 Set the same environment variables in your Vercel project settings.
 
-## Demo Features
+## 🎯 Usage Examples
 
-For the demo version, DudeBot includes:
-- Sample document database with company policies and procedures
-- Mock calendar and email functionality
-- AI-powered task management
-- Natural language interface
+### Sample Queries
+- "How do I reset my password?"
+- "What are the leave policies for sick days?"
+- "How can I book transport for late night work?"
+- "What benefits am I eligible for?"
+- "Tell me about the BYOD policy"
+- "How do I update my cab pickup address?"
+
+### Voice Commands
+Click the microphone button and speak naturally:
+- "Check my leave balance"
+- "Contact IT support"
+- "What are the cafeteria timings?"
+
+## 📊 Knowledge Base Coverage
+
+The system includes comprehensive information about:
+- **HR**: Leave policies, benefits, compensation, employee procedures
+- **IT**: Password resets, equipment requests, software support, BYOD policies
+- **Facilities**: Office hours, cafeteria, gym, meeting rooms, parking
+- **Transportation**: Cab services, address updates, late night transport
+- **Benefits**: Health insurance, flexible benefits, life insurance
 
 ## Contributing
 
