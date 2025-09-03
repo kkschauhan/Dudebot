@@ -295,18 +295,24 @@ const knowledgeBase = {
     const queryLower = query.toLowerCase();
     
     // Check for specific keywords and return relevant sections
-    if (queryLower.includes('password')) {
-      return doc.content.password_reset;
+    if (queryLower.includes('password') || queryLower.includes('reset')) {
+      return doc.content.password_reset || doc.content;
     }
     if (queryLower.includes('leave') && queryLower.includes('balance')) {
       return "Login to HR Portal > My Profile > Leave Balance. Updated real-time.";
     }
-    if (queryLower.includes('address') && queryLower.includes('cab')) {
-      return doc.content.cab_service?.address_update;
+    if (queryLower.includes('address') && (queryLower.includes('cab') || queryLower.includes('transport'))) {
+      return doc.content.cab_service?.address_update || doc.content;
+    }
+    if (queryLower.includes('benefit') || queryLower.includes('eligible')) {
+      return doc.content.flexible_benefits || doc.content;
+    }
+    if (queryLower.includes('transport') || queryLower.includes('cab') || queryLower.includes('shuttle')) {
+      return doc.content.cab_service || doc.content;
     }
     
-    // Return full content if no specific match
-    return doc.content;
+    // Return full content formatted as markdown if no specific match
+    return this.formatAsMarkdown(doc.content);
   },
 
   // Format content as markdown for better presentation
@@ -404,12 +410,14 @@ const knowledgeBase = {
     if (searchResults.length > 0) {
       const topResult = searchResults[0];
       const answer = knowledgeBase.extractAnswer(topResult.id, query);
-      return {
-        type: 'document',
-        document: topResult.title,
-        answer,
-        confidence: topResult.score / 10
-      };
+      if (answer) {
+        return {
+          type: 'document',
+          document: topResult.title,
+          answer,
+          confidence: topResult.score / 10
+        };
+      }
     }
     
     // Check for contact queries

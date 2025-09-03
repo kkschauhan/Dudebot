@@ -79,23 +79,28 @@ app.post('/api/chat', async (req, res) => {
         { role: 'user', content: userMessage }
       ];
 
-      const response = await axios.post(
-        'https://openrouter.ai/api/v1/chat/completions',
-        {
-          model: 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free',
-          messages,
-          max_tokens: 300,
-          temperature: 0.3
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`
+      // Check if API key is available
+      if (!process.env.OPENROUTER_API_KEY) {
+        reply = "I'm currently unable to process your request because the AI service is not configured. Please contact your administrator to set up the OpenRouter API key.";
+      } else {
+        const response = await axios.post(
+          'https://openrouter.ai/api/v1/chat/completions',
+          {
+            model: 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free',
+            messages,
+            max_tokens: 300,
+            temperature: 0.3
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`
+            }
           }
-        }
-      );
+        );
 
-      reply = response.data.choices?.[0]?.message?.content?.trim() || '';
+        reply = response.data.choices?.[0]?.message?.content?.trim() || '';
+      }
     }
     
     res.json({ 
