@@ -378,25 +378,29 @@ const knowledgeBase = {
   // Helper function to process queries
   function processQuery(query) {
     const queryLower = query.toLowerCase();
+    console.log('Processing query:', queryLower);
     
-    // Check FAQs first with improved matching
+    // Special handling for specific questions FIRST
+    if (queryLower.includes('who') && queryLower.includes('named') && queryLower.includes('you')) {
+      console.log('Matched: who + named + you');
+      return { type: 'faq', answer: 'My maalik' };
+    }
+    
+    if (queryLower.includes('why') && (queryLower.includes('named') || queryLower.includes('name')) && queryLower.includes('you')) {
+      console.log('Matched: why + named/name + you');
+      return { type: 'faq', answer: 'You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!' };
+    }
+    
+    // Check FAQs with improved matching
     for (const [key, answer] of Object.entries(faqs)) {
       // Check for exact phrase match or key words
       if (queryLower.includes(key) || 
           (key.includes('who') && (queryLower.includes('who') && queryLower.includes('named'))) ||
           (key.includes('creator') && (queryLower.includes('creator') || queryLower.includes('created') || queryLower.includes('made'))) ||
           (key.includes('name') && queryLower.includes('name'))) {
+        console.log('Matched FAQ key:', key);
         return { type: 'faq', answer };
       }
-    }
-    
-    // Special handling for specific questions
-    if (queryLower.includes('who') && queryLower.includes('named') && queryLower.includes('you')) {
-      return { type: 'faq', answer: 'My maalik' };
-    }
-    
-    if (queryLower.includes('why') && (queryLower.includes('named') || queryLower.includes('name')) && queryLower.includes('you')) {
-      return { type: 'faq', answer: 'You would have known if you would have been to a shop in UK trying to call a shopkeeper not looking at you!' };
     }
     
     // Search documents
