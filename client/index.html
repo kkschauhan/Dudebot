@@ -642,6 +642,65 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Footer Styles */
+        .app-footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 1rem 0;
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-content p {
+            margin: 0 0 0.5rem 0;
+            font-weight: 500;
+        }
+
+        .developers {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .developers span {
+            color: var(--text-secondary);
+        }
+
+        .developers a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .developers a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        /* Responsive footer */
+        @media (max-width: 768px) {
+            .app-footer {
+                padding: 0.75rem 0;
+                font-size: 0.8rem;
+            }
+            
+            .developers {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+        }
   </style>
 </head>
 <body>
@@ -1193,5 +1252,18 @@
             new DudeBot();
         });
   </script>
+  
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>&copy; 2024 DudeBot Enterprise AI Assistant</p>
+      <div class="developers">
+        <span>Developed by:</span>
+        <a href="https://github.com/shreyaxgarg" target="_blank" rel="noopener noreferrer">@shreyaxgarg</a>
+        <span>&</span>
+        <a href="https://github.com/kkschauhan" target="_blank" rel="noopener noreferrer">@kkschauhan</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

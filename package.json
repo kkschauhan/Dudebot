@@ -13,6 +13,10 @@
   },
   "keywords": ["ai", "assistant", "workplace", "automation", "chatbot"],
   "author": "DudeBot Team",
+  "contributors": [
+    "shreyaxgarg <https://github.com/shreyaxgarg>",
+    "kkschauhan <https://github.com/kkschauhan>"
+  ],
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",

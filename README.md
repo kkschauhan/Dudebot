@@ -2,6 +2,8 @@
 
 An enterprise-grade AI assistant for workplace queries and task automation, built with modern web technologies and RAG (Retrieval-Augmented Generation) capabilities.
 
+**Developed by:** [@shreyaxgarg](https://github.com/shreyaxgarg) & [@kkschauhan](https://github.com/kkschauhan)
+
 ## ✨ Key Features
 
 ### 🧠 RAG-Powered Intelligence
