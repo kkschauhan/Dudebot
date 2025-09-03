@@ -102,13 +102,13 @@ Your goal is to be helpful, accurate, and professional in all interactions.`;
       ];
 
       // Check if API key is available
-      if (!process.env.OPENROUTER_API_KEY) {
-        reply = "I'm currently unable to process your request because the AI service is not configured. Please contact your administrator to set up the OpenRouter API key.";
+      if (!process.env.GROQ_API_KEY) {
+        reply = "I'm currently unable to process your request because the AI service is not configured. Please contact your administrator to set up the Groq API key.";
       } else {
         const response = await axios.post(
-          'https://openrouter.ai/api/v1/chat/completions',
+          'https://api.groq.com/openai/v1/chat/completions',
           {
-            model: 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free',
+            model: 'llama-3.1-8b-instant',
             messages,
             max_tokens: 300,
             temperature: 0.3
@@ -116,7 +116,7 @@ Your goal is to be helpful, accurate, and professional in all interactions.`;
           {
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`
+              Authorization: `Bearer ${process.env.GROQ_API_KEY}`
             }
           }
         );

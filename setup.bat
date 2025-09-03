@@ -46,10 +46,10 @@ cd ..
 REM Create .env file if it doesn't exist
 if not exist "server\.env" (
     echo 🔧 Creating environment file...
-    echo OPENROUTER_API_KEY=your_openrouter_api_key_here > server\.env
+    echo GROQ_API_KEY=your_groq_api_key_here > server\.env
     echo PORT=5000 >> server\.env
     echo NODE_ENV=development >> server\.env
-    echo ⚠️  Please edit server\.env and add your OpenRouter API key
+    echo ⚠️  Please edit server\.env and add your Groq API key
 ) else (
     echo ✅ Environment file already exists
 )
@@ -58,7 +58,7 @@ echo.
 echo 🎉 Setup complete!
 echo.
 echo Next steps:
-echo 1. Edit server\.env and add your OpenRouter API key
+echo 1. Edit server\.env and add your Groq API key
 echo 2. Run 'npm run dev' to start the development server
 echo 3. Open http://localhost:5000 in your browser
 echo.

@@ -27,7 +27,7 @@ An enterprise-grade AI assistant for workplace queries and task automation, buil
 
 - **Frontend**: Modern HTML5, CSS3, JavaScript (ES6+)
 - **Backend**: Node.js, Express.js
-- **AI**: OpenRouter API with RAG integration
+- **AI**: Groq API with RAG integration
 - **Knowledge Base**: Structured JSON-based document system
 - **Voice Recognition**: Web Speech API
 - **Styling**: CSS Custom Properties with dark/light theme support
@@ -38,7 +38,7 @@ An enterprise-grade AI assistant for workplace queries and task automation, buil
 ### Prerequisites
 - Node.js 18+ 
 - npm or yarn
-- OpenRouter API key (free tier available)
+- Groq API key (free tier available)
 
 ### Installation
 
@@ -53,7 +53,7 @@ An enterprise-grade AI assistant for workplace queries and task automation, buil
    ```bash
    # Create .env file in server directory
    cd server
-   echo "OPENROUTER_API_KEY=your_openrouter_api_key_here" > .env
+   echo "GROQ_API_KEY=your_groq_api_key_here" > .env
    ```
 
 3. **Install Dependencies:**
@@ -74,8 +74,8 @@ An enterprise-grade AI assistant for workplace queries and task automation, buil
 Create a `.env` file in the `server` directory:
 
 ```env
-# OpenRouter API (for AI responses)
-OPENROUTER_API_KEY=your_openrouter_api_key_here
+# Groq API (for AI responses)
+GROQ_API_KEY=your_groq_api_key_here
 
 # Server Configuration
 PORT=5000
