@@ -63,6 +63,19 @@ app.post('/api/chat', async (req, res) => {
       });
     }
 
+    console.log('Knowledge result:', knowledgeResult);
+    console.log('Context:', context);
+
+    // For FAQ responses, return directly without AI processing
+    if (knowledgeResult.type === 'faq') {
+      console.log('Returning FAQ answer directly:', knowledgeResult.answer);
+      return res.json({ 
+        reply: knowledgeResult.answer,
+        sources: sources.length > 0 ? sources : null,
+        knowledgeUsed: true
+      });
+    }
+
     // If we have knowledge base context, use it; otherwise, let AI handle general queries
     const messages = [
       { 
