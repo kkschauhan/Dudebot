@@ -127,9 +127,63 @@
             width: 300px;
             background: var(--bg-secondary);
             border-radius: var(--radius-lg);
-            padding: 1.5rem;
+            padding: 0;
             height: fit-content;
             box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        /* Sidebar Tabs */
+        .sidebar-tabs {
+            display: flex;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem 0.5rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .tab-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tab-btn i {
+            font-size: 1rem;
+        }
+
+        .tab-btn span {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .tab-content {
+            padding: 1.5rem;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
         }
 
         .sidebar h3 {
@@ -160,6 +214,264 @@
             background: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
+        }
+
+        /* Todo List Styles */
+        .todo-section {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .todo-header h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .add-todo-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .add-todo-btn:hover {
+            background: var(--primary-hover);
+            transform: scale(1.1);
+        }
+
+        .todo-input-container {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .todo-input-container input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .todo-input-container input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .todo-input-actions {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .todo-save-btn, .todo-cancel-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .todo-save-btn {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .todo-save-btn:hover {
+            background: #059669;
+        }
+
+        .todo-cancel-btn {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .todo-cancel-btn:hover {
+            background: #dc2626;
+        }
+
+        .todo-filters {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-btn {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .todo-list {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 300px;
+            margin-bottom: 1rem;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .todo-item:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary-color);
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .todo-checkbox {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .todo-checkbox.checked {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .todo-text {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .todo-actions {
+            display: flex;
+            gap: 0.25rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .todo-item:hover .todo-actions {
+            opacity: 1;
+        }
+
+        .todo-edit-btn, .todo-delete-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            transition: all 0.2s ease;
+        }
+
+        .todo-edit-btn {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .todo-edit-btn:hover {
+            background: #d97706;
+        }
+
+        .todo-delete-btn {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .todo-delete-btn:hover {
+            background: #dc2626;
+        }
+
+        .todo-stats {
+            text-align: center;
+            padding: 0.5rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-around;
+            gap: 0.5rem;
+        }
+
+        .todo-stats span {
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+        }
+
+        .todo-completed {
+            color: var(--success-color);
+        }
+
+        .todo-pending {
+            color: var(--warning-color);
+        }
+
+        .todo-empty {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            padding: 2rem 1rem;
+        }
+
+        .todo-empty i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.5;
         }
 
         .categories {
@@ -719,31 +1031,90 @@
 
         <main class="main-content">
             <aside class="sidebar">
-                <h3>Quick Actions</h3>
-                <div class="quick-actions">
-                    <button class="quick-action" data-action="leave-balance">
-                        <i class="fas fa-calendar-alt"></i> Check Leave Balance
+                <div class="sidebar-tabs">
+                    <button class="tab-btn active" data-tab="quick-actions">
+                        <i class="fas fa-bolt"></i>
+                        <span>Quick Actions</span>
                     </button>
-                    <button class="quick-action" data-action="password-reset">
-                        <i class="fas fa-key"></i> Password Reset
+                    <button class="tab-btn" data-tab="todo-list">
+                        <i class="fas fa-tasks"></i>
+                        <span>To-Do List</span>
                     </button>
-                    <button class="quick-action" data-action="it-support">
-                        <i class="fas fa-headset"></i> IT Support
-                    </button>
-                    <button class="quick-action" data-action="benefits">
-                        <i class="fas fa-heart"></i> Benefits Info
-                    </button>
-                    <button class="quick-action" data-action="transport">
-                        <i class="fas fa-car"></i> Transport Booking
+                    <button class="tab-btn" data-tab="knowledge">
+                        <i class="fas fa-book"></i>
+                        <span>Knowledge</span>
                     </button>
                 </div>
-
-                <h3>Knowledge Categories</h3>
-                <div class="categories" id="categories">
-                    <div class="category">HR Policies</div>
-                    <div class="category">IT Support</div>
-                    <div class="category">Facilities</div>
-                    <div class="category">Benefits</div>
+                
+                <div class="tab-content">
+                    <div class="tab-panel active" id="quick-actions">
+                        <div class="quick-actions">
+                            <button class="quick-action" data-action="leave-balance">
+                                <i class="fas fa-calendar-alt"></i> Check Leave Balance
+                            </button>
+                            <button class="quick-action" data-action="password-reset">
+                                <i class="fas fa-key"></i> Password Reset
+                            </button>
+                            <button class="quick-action" data-action="it-support">
+                                <i class="fas fa-headset"></i> IT Support
+                            </button>
+                            <button class="quick-action" data-action="benefits">
+                                <i class="fas fa-heart"></i> Benefits Info
+                            </button>
+                            <button class="quick-action" data-action="transport">
+                                <i class="fas fa-car"></i> Transport Booking
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="todo-list">
+                        <div class="todo-section">
+                            <div class="todo-header">
+                                <h3>My Tasks</h3>
+                                <button class="add-todo-btn" id="addTodoBtn">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="todo-input-container" id="todoInputContainer" style="display: none;">
+                                <input type="text" id="todoInput" placeholder="Add a new task...">
+                                <div class="todo-input-actions">
+                                    <button class="todo-save-btn" id="todoSaveBtn">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button class="todo-cancel-btn" id="todoCancelBtn">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="todo-filters">
+                                <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="pending">Pending</button>
+                                <button class="filter-btn" data-filter="completed">Done</button>
+                            </div>
+                            
+                            <div class="todo-list" id="todoList">
+                                <!-- Todo items will be loaded here -->
+                            </div>
+                            
+                            <div class="todo-stats" id="todoStats">
+                                <span class="todo-count">0 tasks</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="knowledge">
+                        <div class="knowledge-categories">
+                            <h3>Knowledge Categories</h3>
+                            <div class="categories" id="categories">
+                                <div class="category">HR Policies</div>
+                                <div class="category">IT Support</div>
+                                <div class="category">Facilities</div>
+                                <div class="category">Benefits</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </aside>
 
@@ -819,6 +1190,11 @@
                 this.recognition = null;
                 this.currentTheme = localStorage.getItem('theme') || 'light';
                 
+                // Todo list properties
+                this.todos = JSON.parse(localStorage.getItem('todos')) || [];
+                this.currentFilter = 'all';
+                this.editingTodoId = null;
+                
                 this.init();
             }
 
@@ -826,6 +1202,7 @@
                 this.setupEventListeners();
                 this.setupTheme();
                 this.setupVoiceRecognition();
+                this.setupTodoList();
                 this.loadCategories();
                 this.setupAutoResize();
                 this.checkMicrophonePermission();
@@ -1078,6 +1455,13 @@
                 const message = this.chatInput.value.trim();
                 if (!message) return;
 
+                // Check for todo commands first
+                if (this.processTodoCommand(message)) {
+                    this.chatInput.value = '';
+                    this.chatInput.style.height = 'auto';
+                    return;
+                }
+
                 // Track message sent event
                 if (window.va) {
                     window.va('track', 'message_sent', {
@@ -1230,6 +1614,326 @@
                     typingIndicator.remove();
                 }
             }
+
+            // Todo List Methods
+            setupTodoList() {
+                this.setupTodoEventListeners();
+                this.renderTodos();
+                this.updateTodoStats();
+            }
+
+            setupTodoEventListeners() {
+                // Tab switching
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.switchTab(e.target.dataset.tab);
+                    });
+                });
+
+                // Add todo button
+                document.getElementById('addTodoBtn').addEventListener('click', () => {
+                    this.showTodoInput();
+                });
+
+                // Todo input actions
+                document.getElementById('todoSaveBtn').addEventListener('click', () => {
+                    this.saveTodo();
+                });
+
+                document.getElementById('todoCancelBtn').addEventListener('click', () => {
+                    this.hideTodoInput();
+                });
+
+                // Todo input enter key
+                document.getElementById('todoInput').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        this.saveTodo();
+                    } else if (e.key === 'Escape') {
+                        this.hideTodoInput();
+                    }
+                });
+
+                // Filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.setFilter(e.target.dataset.filter);
+                    });
+                });
+            }
+
+            switchTab(tabName) {
+                // Update tab buttons
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+                // Update tab panels
+                document.querySelectorAll('.tab-panel').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                document.getElementById(tabName).classList.add('active');
+            }
+
+            showTodoInput() {
+                const container = document.getElementById('todoInputContainer');
+                const input = document.getElementById('todoInput');
+                container.style.display = 'flex';
+                input.focus();
+            }
+
+            hideTodoInput() {
+                const container = document.getElementById('todoInputContainer');
+                const input = document.getElementById('todoInput');
+                container.style.display = 'none';
+                input.value = '';
+                this.editingTodoId = null;
+            }
+
+            saveTodo() {
+                const input = document.getElementById('todoInput');
+                const text = input.value.trim();
+                
+                if (!text) return;
+
+                if (this.editingTodoId) {
+                    // Edit existing todo
+                    const todo = this.todos.find(t => t.id === this.editingTodoId);
+                    if (todo) {
+                        todo.text = text;
+                        todo.updatedAt = new Date().toISOString();
+                    }
+                } else {
+                    // Add new todo
+                    const newTodo = {
+                        id: Date.now().toString(),
+                        text: text,
+                        completed: false,
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    };
+                    this.todos.unshift(newTodo);
+                }
+
+                this.saveTodos();
+                this.renderTodos();
+                this.updateTodoStats();
+                this.hideTodoInput();
+            }
+
+            deleteTodo(id) {
+                this.todos = this.todos.filter(todo => todo.id !== id);
+                this.saveTodos();
+                this.renderTodos();
+                this.updateTodoStats();
+            }
+
+            toggleTodo(id) {
+                const todo = this.todos.find(t => t.id === id);
+                if (todo) {
+                    todo.completed = !todo.completed;
+                    todo.updatedAt = new Date().toISOString();
+                    this.saveTodos();
+                    this.renderTodos();
+                    this.updateTodoStats();
+                }
+            }
+
+            editTodo(id) {
+                const todo = this.todos.find(t => t.id === id);
+                if (todo) {
+                    this.editingTodoId = id;
+                    const input = document.getElementById('todoInput');
+                    input.value = todo.text;
+                    this.showTodoInput();
+                }
+            }
+
+            setFilter(filter) {
+                this.currentFilter = filter;
+                
+                // Update filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+                
+                this.renderTodos();
+            }
+
+            getFilteredTodos() {
+                switch (this.currentFilter) {
+                    case 'completed':
+                        return this.todos.filter(todo => todo.completed);
+                    case 'pending':
+                        return this.todos.filter(todo => !todo.completed);
+                    default:
+                        return this.todos;
+                }
+            }
+
+            renderTodos() {
+                const todoList = document.getElementById('todoList');
+                const filteredTodos = this.getFilteredTodos();
+
+                if (filteredTodos.length === 0) {
+                    todoList.innerHTML = `
+                        <div class="todo-empty">
+                            <i class="fas fa-tasks"></i>
+                            <div>No tasks found</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                todoList.innerHTML = filteredTodos.map(todo => `
+                    <div class="todo-item ${todo.completed ? 'completed' : ''}" data-id="${todo.id}">
+                        <div class="todo-checkbox ${todo.completed ? 'checked' : ''}" onclick="dudeBot.toggleTodo('${todo.id}')">
+                            ${todo.completed ? '<i class="fas fa-check"></i>' : ''}
+                        </div>
+                        <div class="todo-text">${todo.text}</div>
+                        <div class="todo-actions">
+                            <button class="todo-edit-btn" onclick="dudeBot.editTodo('${todo.id}')" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="todo-delete-btn" onclick="dudeBot.deleteTodo('${todo.id}')" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateTodoStats() {
+                const stats = document.getElementById('todoStats');
+                const total = this.todos.length;
+                const completed = this.todos.filter(t => t.completed).length;
+                const pending = total - completed;
+                
+                stats.innerHTML = `
+                    <span class="todo-count">${total} tasks</span>
+                    <span class="todo-completed">${completed} done</span>
+                    <span class="todo-pending">${pending} pending</span>
+                `;
+            }
+
+            saveTodos() {
+                localStorage.setItem('todos', JSON.stringify(this.todos));
+            }
+
+            // Natural Language Processing for Todo Commands
+            processTodoCommand(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                // Add todo patterns
+                if (lowerMessage.includes('add') && (lowerMessage.includes('task') || lowerMessage.includes('todo'))) {
+                    const taskText = this.extractTaskText(message);
+                    if (taskText) {
+                        this.addTodoFromCommand(taskText);
+                        return true;
+                    }
+                }
+                
+                // Complete todo patterns
+                if (lowerMessage.includes('complete') || lowerMessage.includes('done') || lowerMessage.includes('finish')) {
+                    const taskId = this.findTaskId(message);
+                    if (taskId) {
+                        this.toggleTodo(taskId);
+                        return true;
+                    }
+                }
+                
+                // Delete todo patterns
+                if (lowerMessage.includes('delete') || lowerMessage.includes('remove')) {
+                    const taskId = this.findTaskId(message);
+                    if (taskId) {
+                        this.deleteTodo(taskId);
+                        return true;
+                    }
+                }
+                
+                // Edit todo patterns
+                if (lowerMessage.includes('edit') || lowerMessage.includes('change') || lowerMessage.includes('update')) {
+                    const taskId = this.findTaskId(message);
+                    if (taskId) {
+                        this.editTodo(taskId);
+                        return true;
+                    }
+                }
+                
+                return false;
+            }
+
+            extractTaskText(message) {
+                // Extract task text from natural language
+                const patterns = [
+                    /add (?:task|todo) (?:called|named|to) (.+)/i,
+                    /add (.+) (?:as|to) (?:task|todo)/i,
+                    /create (?:task|todo) (.+)/i,
+                    /new (?:task|todo) (.+)/i
+                ];
+                
+                for (const pattern of patterns) {
+                    const match = message.match(pattern);
+                    if (match) {
+                        return match[1].trim();
+                    }
+                }
+                
+                // Fallback: extract text after common keywords
+                const keywords = ['add task', 'add todo', 'create task', 'new task'];
+                for (const keyword of keywords) {
+                    const index = message.toLowerCase().indexOf(keyword);
+                    if (index !== -1) {
+                        return message.substring(index + keyword.length).trim();
+                    }
+                }
+                
+                return null;
+            }
+
+            findTaskId(message) {
+                // Try to find task by ID or partial text match
+                const words = message.toLowerCase().split(' ');
+                
+                // Look for task ID
+                for (const word of words) {
+                    const todo = this.todos.find(t => t.id === word);
+                    if (todo) return todo.id;
+                }
+                
+                // Look for partial text match
+                for (const todo of this.todos) {
+                    const todoWords = todo.text.toLowerCase().split(' ');
+                    const matchCount = words.filter(word => 
+                        todoWords.some(todoWord => todoWord.includes(word) || word.includes(todoWord))
+                    ).length;
+                    
+                    if (matchCount >= 2) {
+                        return todo.id;
+                    }
+                }
+                
+                return null;
+            }
+
+            addTodoFromCommand(taskText) {
+                const newTodo = {
+                    id: Date.now().toString(),
+                    text: taskText,
+                    completed: false,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                this.todos.unshift(newTodo);
+                this.saveTodos();
+                this.renderTodos();
+                this.updateTodoStats();
+                
+                // Switch to todo tab
+                this.switchTab('todo-list');
+            }
         }
 
         // Configure marked for better rendering
@@ -1249,7 +1953,7 @@
                 });
             }
             
-            new DudeBot();
+            window.dudeBot = new DudeBot();
         });
   </script>
   
