@@ -1825,11 +1825,23 @@
             processTodoCommand(message) {
                 const lowerMessage = message.toLowerCase();
                 
-                // Add todo patterns
-                if (lowerMessage.includes('add') && (lowerMessage.includes('task') || lowerMessage.includes('todo'))) {
+                // Add todo patterns - more comprehensive matching
+                if ((lowerMessage.includes('create') || lowerMessage.includes('add') || lowerMessage.includes('new')) && 
+                    (lowerMessage.includes('task') || lowerMessage.includes('todo'))) {
                     const taskText = this.extractTaskText(message);
                     if (taskText) {
                         this.addTodoFromCommand(taskText);
+                        this.addMessage(`✅ Task created: "${taskText}"`, 'bot');
+                        return true;
+                    }
+                }
+                
+                // Pattern for "fill" commands
+                if (lowerMessage.includes('fill')) {
+                    const taskText = this.extractTaskText(message);
+                    if (taskText) {
+                        this.addTodoFromCommand(taskText);
+                        this.addMessage(`✅ Task created: "${taskText}"`, 'bot');
                         return true;
                     }
                 }
@@ -1839,6 +1851,8 @@
                     const taskId = this.findTaskId(message);
                     if (taskId) {
                         this.toggleTodo(taskId);
+                        const todo = this.todos.find(t => t.id === taskId);
+                        this.addMessage(`✅ Task ${todo.completed ? 'completed' : 'marked as pending'}: "${todo.text}"`, 'bot');
                         return true;
                     }
                 }
@@ -1847,7 +1861,9 @@
                 if (lowerMessage.includes('delete') || lowerMessage.includes('remove')) {
                     const taskId = this.findTaskId(message);
                     if (taskId) {
+                        const todo = this.todos.find(t => t.id === taskId);
                         this.deleteTodo(taskId);
+                        this.addMessage(`✅ Task deleted: "${todo.text}"`, 'bot');
                         return true;
                     }
                 }
@@ -1867,10 +1883,13 @@
             extractTaskText(message) {
                 // Extract task text from natural language
                 const patterns = [
+                    /create (?:a )?new task to (.+)/i,
+                    /create (?:a )?task to (.+)/i,
                     /add (?:task|todo) (?:called|named|to) (.+)/i,
                     /add (.+) (?:as|to) (?:task|todo)/i,
                     /create (?:task|todo) (.+)/i,
-                    /new (?:task|todo) (.+)/i
+                    /new (?:task|todo) (.+)/i,
+                    /(?:add|create|new) (?:a )?(?:task|todo) (?:to )?(.+)/i
                 ];
                 
                 for (const pattern of patterns) {
@@ -1881,11 +1900,19 @@
                 }
                 
                 // Fallback: extract text after common keywords
-                const keywords = ['add task', 'add todo', 'create task', 'new task'];
+                const keywords = ['add task', 'add todo', 'create task', 'new task', 'add a task', 'create a task', 'create a new task'];
                 for (const keyword of keywords) {
                     const index = message.toLowerCase().indexOf(keyword);
                     if (index !== -1) {
                         return message.substring(index + keyword.length).trim();
+                    }
+                }
+                
+                // Special case for "fill" patterns
+                if (message.toLowerCase().includes('fill')) {
+                    const fillMatch = message.match(/fill (.+)/i);
+                    if (fillMatch) {
+                        return `Fill ${fillMatch[1]}`;
                     }
                 }
                 
