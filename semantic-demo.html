@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Task Matching Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .demo-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .demo-title {
+            color: #2d3748;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .test-case {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .task-text {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .user-input {
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .reason {
+            font-style: italic;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        .match-result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .match-yes {
+            background: #f0fff4;
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+        .match-no {
+            background: #fff5f5;
+            color: #742a2a;
+            border: 1px solid #feb2b2;
+        }
+        .explanation {
+            background: #edf2f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .highlight {
+            background: #fef5e7;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">🧠 AI Semantic Task Matching Demo</h1>
+        
+        <div class="test-case">
+            <div class="task-text">📝 Task: "prepare presentation slides for client meeting"</div>
+            <div class="user-input">💬 User says: "complete the pitch"</div>
+            <div class="reason">💡 AI understands: "pitch" is synonymous with "presentation"</div>
+            <div class="match-result match-yes">✅ MATCH - AI correctly identifies the task!</div>
+        </div>
+
+        <div class="test-case">
+            <div class="task-text">📝 Task: "create PowerPoint presentation"</div>
+            <div class="user-input">💬 User says: "finish the deck"</div>
+            <div class="reason">💡 AI understands: "deck" refers to presentation slides</div>
+            <div class="match-result match-yes">✅ MATCH - AI understands slang terms!</div>
+        </div>
+
+        <div class="test-case">
+            <div class="task-text">📝 Task: "call the client about project updates"</div>
+            <div class="user-input">💬 User says: "mark the phone call as done"</div>
+            <div class="reason">💡 AI understands: "phone call" matches "call" task</div>
+            <div class="match-result match-yes">✅ MATCH - AI handles variations!</div>
+        </div>
+
+        <div class="test-case">
+            <div class="task-text">📝 Task: "review quarterly financial reports"</div>
+            <div class="user-input">💬 User says: "complete the budget review"</div>
+            <div class="reason">💡 AI understands: "budget review" is related to "financial reports"</div>
+            <div class="match-result match-yes">✅ MATCH - AI understands related concepts!</div>
+        </div>
+
+        <div class="test-case">
+            <div class="task-text">📝 Task: "prepare presentation slides for client meeting"</div>
+            <div class="user-input">💬 User says: "delete the meeting notes"</div>
+            <div class="reason">💡 AI understands: "meeting notes" is different from "presentation slides"</div>
+            <div class="match-result match-no">❌ NO MATCH - AI correctly distinguishes different tasks!</div>
+        </div>
+
+        <div class="explanation">
+            <h3>🎯 How AI Semantic Matching Works</h3>
+            <p><strong>Traditional Regex Approach:</strong></p>
+            <ul>
+                <li>❌ Only matches exact words: "presentation" ≠ "pitch"</li>
+                <li>❌ Brittle and limited patterns</li>
+                <li>❌ Misses synonyms and variations</li>
+            </ul>
+            
+            <p><strong>AI Semantic Understanding:</strong></p>
+            <ul>
+                <li>✅ Understands <span class="highlight">synonyms</span>: presentation = pitch = deck</li>
+                <li>✅ Recognizes <span class="highlight">context</span>: "phone call" matches "call"</li>
+                <li>✅ Handles <span class="highlight">variations</span>: "budget review" ≈ "financial reports"</li>
+                <li>✅ Distinguishes <span class="highlight">different concepts</span>: "meeting notes" ≠ "presentation"</li>
+            </ul>
+
+            <p><strong>Real Examples That Work:</strong></p>
+            <ul>
+                <li>"complete the pitch" → finds "presentation" task</li>
+                <li>"finish the deck" → finds "PowerPoint" task</li>
+                <li>"mark the call as done" → finds "phone call" task</li>
+                <li>"work on the slides" → finds "presentation" task</li>
+                <li>"finish the report" → finds "financial reports" task</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

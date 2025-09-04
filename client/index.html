@@ -387,10 +387,40 @@
             color: white;
         }
 
-        .todo-text {
+        .todo-content {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .todo-text {
             font-size: 0.9rem;
             color: var(--text-primary);
+        }
+
+        .todo-priority {
+            font-size: 0.7rem;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+
+        .priority-high {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .priority-medium {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .priority-low {
+            background: #f0f9ff;
+            color: #2563eb;
         }
 
         .todo-actions {
@@ -1791,7 +1821,10 @@
                         <div class="todo-checkbox ${todo.completed ? 'checked' : ''}" onclick="dudeBot.toggleTodo('${todo.id}')">
                             ${todo.completed ? '<i class="fas fa-check"></i>' : ''}
                         </div>
-                        <div class="todo-text">${todo.text}</div>
+                        <div class="todo-content">
+                            <div class="todo-text">${todo.text}</div>
+                            ${todo.priority ? `<div class="todo-priority priority-${todo.priority}">${todo.priority}</div>` : ''}
+                        </div>
                         <div class="todo-actions">
                             <button class="todo-edit-btn" onclick="dudeBot.editTodo('${todo.id}')" title="Edit">
                                 <i class="fas fa-edit"></i>
@@ -1821,134 +1854,66 @@
                 localStorage.setItem('todos', JSON.stringify(this.todos));
             }
 
-            // Natural Language Processing for Todo Commands
-            processTodoCommand(message) {
-                const lowerMessage = message.toLowerCase();
-                
-                // Add todo patterns - more comprehensive matching
-                if ((lowerMessage.includes('create') || lowerMessage.includes('add') || lowerMessage.includes('new')) && 
-                    (lowerMessage.includes('task') || lowerMessage.includes('todo'))) {
-                    const taskText = this.extractTaskText(message);
-                    if (taskText) {
-                        this.addTodoFromCommand(taskText);
-                        this.addMessage(`✅ Task created: "${taskText}"`, 'bot');
-                        return true;
-                    }
-                }
-                
-                // Pattern for "fill" commands
-                if (lowerMessage.includes('fill')) {
-                    const taskText = this.extractTaskText(message);
-                    if (taskText) {
-                        this.addTodoFromCommand(taskText);
-                        this.addMessage(`✅ Task created: "${taskText}"`, 'bot');
-                        return true;
-                    }
-                }
-                
-                // Complete todo patterns
-                if (lowerMessage.includes('complete') || lowerMessage.includes('done') || lowerMessage.includes('finish')) {
-                    const taskId = this.findTaskId(message);
-                    if (taskId) {
-                        this.toggleTodo(taskId);
-                        const todo = this.todos.find(t => t.id === taskId);
-                        this.addMessage(`✅ Task ${todo.completed ? 'completed' : 'marked as pending'}: "${todo.text}"`, 'bot');
-                        return true;
-                    }
-                }
-                
-                // Delete todo patterns
-                if (lowerMessage.includes('delete') || lowerMessage.includes('remove')) {
-                    const taskId = this.findTaskId(message);
-                    if (taskId) {
-                        const todo = this.todos.find(t => t.id === taskId);
-                        this.deleteTodo(taskId);
-                        this.addMessage(`✅ Task deleted: "${todo.text}"`, 'bot');
-                        return true;
-                    }
-                }
-                
-                // Edit todo patterns
-                if (lowerMessage.includes('edit') || lowerMessage.includes('change') || lowerMessage.includes('update')) {
-                    const taskId = this.findTaskId(message);
-                    if (taskId) {
-                        this.editTodo(taskId);
-                        return true;
-                    }
-                }
-                
-                return false;
-            }
+            // Modern AI-powered Todo Command Processing
+            async processTodoCommand(message) {
+                // Send to backend for AI-powered intent recognition
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            message: message,
+                            context: 'todo_management',
+                            todos: this.todos
+                        })
+                    });
 
-            extractTaskText(message) {
-                // Extract task text from natural language
-                const patterns = [
-                    /create (?:a )?new task to (.+)/i,
-                    /create (?:a )?task to (.+)/i,
-                    /add (?:task|todo) (?:called|named|to) (.+)/i,
-                    /add (.+) (?:as|to) (?:task|todo)/i,
-                    /create (?:task|todo) (.+)/i,
-                    /new (?:task|todo) (.+)/i,
-                    /(?:add|create|new) (?:a )?(?:task|todo) (?:to )?(.+)/i
-                ];
-                
-                for (const pattern of patterns) {
-                    const match = message.match(pattern);
-                    if (match) {
-                        return match[1].trim();
-                    }
-                }
-                
-                // Fallback: extract text after common keywords
-                const keywords = ['add task', 'add todo', 'create task', 'new task', 'add a task', 'create a task', 'create a new task'];
-                for (const keyword of keywords) {
-                    const index = message.toLowerCase().indexOf(keyword);
-                    if (index !== -1) {
-                        return message.substring(index + keyword.length).trim();
-                    }
-                }
-                
-                // Special case for "fill" patterns
-                if (message.toLowerCase().includes('fill')) {
-                    const fillMatch = message.match(/fill (.+)/i);
-                    if (fillMatch) {
-                        return `Fill ${fillMatch[1]}`;
-                    }
-                }
-                
-                return null;
-            }
-
-            findTaskId(message) {
-                // Try to find task by ID or partial text match
-                const words = message.toLowerCase().split(' ');
-                
-                // Look for task ID
-                for (const word of words) {
-                    const todo = this.todos.find(t => t.id === word);
-                    if (todo) return todo.id;
-                }
-                
-                // Look for partial text match
-                for (const todo of this.todos) {
-                    const todoWords = todo.text.toLowerCase().split(' ');
-                    const matchCount = words.filter(word => 
-                        todoWords.some(todoWord => todoWord.includes(word) || word.includes(todoWord))
-                    ).length;
+                    const data = await response.json();
                     
-                    if (matchCount >= 2) {
-                        return todo.id;
+                    // If the AI detected a todo command and executed it
+                    if (data.todoAction) {
+                        this.handleTodoAction(data.todoAction);
+                        return true;
                     }
+                    
+                    return false;
+                } catch (error) {
+                    console.error('Error processing todo command:', error);
+                    return false;
                 }
-                
-                return null;
             }
 
-            addTodoFromCommand(taskText) {
+            handleTodoAction(action) {
+                switch (action.type) {
+                    case 'create':
+                        this.addTodoFromCommand(action.title, action.priority);
+                        this.addMessage(`✅ Task created: "${action.title}"${action.priority ? ` (${action.priority} priority)` : ''}`, 'bot');
+                        break;
+                    case 'complete':
+                        this.toggleTodo(action.id);
+                        const todo = this.todos.find(t => t.id === action.id);
+                        this.addMessage(`✅ Task ${todo.completed ? 'completed' : 'marked as pending'}: "${todo.text}"`, 'bot');
+                        break;
+                    case 'delete':
+                        const deleteTodo = this.todos.find(t => t.id === action.id);
+                        this.deleteTodo(action.id);
+                        this.addMessage(`✅ Task deleted: "${deleteTodo.text}"`, 'bot');
+                        break;
+                    case 'edit':
+                        this.editTodo(action.id);
+                        break;
+                }
+            }
+
+
+            addTodoFromCommand(taskText, priority = null) {
                 const newTodo = {
                     id: Date.now().toString(),
                     text: taskText,
                     completed: false,
+                    priority: priority,
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString()
                 };
