@@ -167,6 +167,129 @@ function findMatchingTodoFallback(message, todos) {
   return null;
 }
 
+// AI-powered Notes Intent Processing
+async function processNotesIntent(message, notes, todos) {
+  if (!process.env.GROQ_API_KEY) {
+    return null;
+  }
+
+  try {
+    const systemPrompt = `You are a notes management AI. Analyze the user's message and determine if they want to perform a notes action.
+
+Available notes actions:
+- create: User wants to create a new note
+- search: User wants to search through existing notes
+- associate: User wants to associate a note with a task
+- favorite: User wants to favorite/unfavorite a note
+
+Current notes: ${JSON.stringify(notes.map(n => ({ id: n.id, title: n.title, content: n.content, tags: n.tags, taskId: n.taskId, favorite: n.favorite })))}
+Current todos: ${JSON.stringify(todos.map(t => ({ id: t.id, text: t.text, completed: t.completed })))}
+
+Respond with a JSON object containing:
+- type: one of "create", "search", "associate", "favorite", or null if no notes action
+- title: note title (for create)
+- content: note content (for create)
+- tags: array of tags (for create)
+- taskId: task id to associate with (for create/associate)
+- noteId: note id (for associate/favorite)
+- query: search query (for search)
+
+Examples:
+"create a note about the meeting with important details" -> {"type": "create", "title": "Meeting Notes", "content": "important details", "tags": ["meeting", "important"]}
+"search for notes about project" -> {"type": "search", "query": "project"}
+"associate the meeting note with the presentation task" -> {"type": "associate", "noteId": "find_note_id", "taskId": "find_task_id"}
+"favorite the urgent note" -> {"type": "favorite", "noteId": "find_note_id"}`;
+
+    const response = await axios.post(
+      'https://api.groq.com/openai/v1/chat/completions',
+      {
+        model: 'llama-3.1-8b-instant',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: message }
+        ],
+        max_tokens: 200,
+        temperature: 0.1
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.GROQ_API_KEY}`
+        }
+      }
+    );
+
+    const content = response.data.choices?.[0]?.message?.content?.trim();
+    if (content) {
+      try {
+        const action = JSON.parse(content);
+        if (action.type && action.type !== 'null') {
+          // For associate/favorite actions, try to find matching note/task by text
+          if ((action.type === 'associate' || action.type === 'favorite') && !action.noteId) {
+            const matchingNote = findMatchingNote(message, notes);
+            if (matchingNote) {
+              action.noteId = matchingNote.id;
+            }
+          }
+          if (action.type === 'associate' && !action.taskId) {
+            const matchingTask = findMatchingTask(message, todos);
+            if (matchingTask) {
+              action.taskId = matchingTask.id;
+            }
+          }
+          return action;
+        }
+      } catch (e) {
+        console.log('Failed to parse AI response as JSON:', content);
+      }
+    }
+  } catch (error) {
+    console.error('Error processing notes intent:', error);
+  }
+  
+  return null;
+}
+
+// Helper function to find matching note by text similarity
+function findMatchingNote(message, notes) {
+  const messageWords = message.toLowerCase().split(' ');
+  
+  for (const note of notes) {
+    const noteWords = (note.title + ' ' + note.content).toLowerCase().split(' ');
+    const matchCount = messageWords.filter(word => 
+      noteWords.some(noteWord => 
+        noteWord.includes(word) || word.includes(noteWord)
+      )
+    ).length;
+    
+    if (matchCount >= 2) {
+      return note;
+    }
+  }
+  
+  return null;
+}
+
+// Helper function to find matching task by text similarity
+function findMatchingTask(message, todos) {
+  const messageWords = message.toLowerCase().split(' ');
+  
+  for (const todo of todos) {
+    const todoWords = todo.text.toLowerCase().split(' ');
+    const matchCount = messageWords.filter(word => 
+      todoWords.some(todoWord => 
+        todoWord.includes(word) || word.includes(todoWord)
+      )
+    ).length;
+    
+    if (matchCount >= 2) {
+      return todo;
+    }
+  }
+  
+  return null;
+}
+
 // Health check endpoint
 app.get('/', (req, res) => {
   res.send('DudeBot API is running.');
@@ -182,6 +305,7 @@ app.post('/api/chat', async (req, res) => {
   const userMessage = req.body.message;
   const context = req.body.context;
   const todos = req.body.todos || [];
+  const notes = req.body.notes || [];
   
   if (!userMessage) {
     return res.status(400).json({ error: 'Message is required' });
@@ -195,6 +319,19 @@ app.post('/api/chat', async (req, res) => {
         return res.json({
           reply: `Processing todo action: ${todoAction.type}`,
           todoAction: todoAction,
+          sources: null,
+          knowledgeUsed: false
+        });
+      }
+    }
+
+    // Check if this is a notes management context
+    if (context === 'notes_management') {
+      const notesAction = await processNotesIntent(userMessage, notes, todos);
+      if (notesAction) {
+        return res.json({
+          reply: `Processing notes action: ${notesAction.type}`,
+          notesAction: notesAction,
           sources: null,
           knowledgeUsed: false
         });

@@ -504,6 +504,371 @@
             opacity: 0.5;
         }
 
+        /* Notes Styles */
+        .notes-section {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .notes-header h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .add-note-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .add-note-btn:hover {
+            background: var(--primary-hover);
+            transform: scale(1.1);
+        }
+
+        .notes-search-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .notes-search {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .notes-search:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .search-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius);
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .search-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .notes-filters {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .notes-list {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 300px;
+            margin-bottom: 1rem;
+        }
+
+        .note-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .note-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .note-card.favorite {
+            border-color: var(--warning-color);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #fef3c7 100%);
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin: 0;
+            flex: 1;
+            margin-right: 0.5rem;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 0.25rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .note-card:hover .note-actions {
+            opacity: 1;
+        }
+
+        .note-action-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            transition: all 0.2s ease;
+        }
+
+        .note-favorite-btn {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .note-favorite-btn.favorited {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .note-edit-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .note-delete-btn {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .note-content {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .note-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .note-tags {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .note-tag {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+        }
+
+        .note-tag.task-tag {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .note-tag.urgent-tag {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .note-tag.important-tag {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .note-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .notes-stats {
+            text-align: center;
+            padding: 0.5rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .notes-empty {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            padding: 2rem 1rem;
+        }
+
+        .notes-empty i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.5;
+        }
+
+        /* Note Modal Styles */
+        .note-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .note-modal.show {
+            display: flex;
+        }
+
+        .note-modal-content {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .note-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .note-modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .note-modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--error-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .note-form-group {
+            margin-bottom: 1rem;
+        }
+
+        .note-form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .note-form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .note-form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .note-form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .note-form-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .note-form-btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .note-form-btn.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .note-form-btn.secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
         .categories {
             display: flex;
             flex-direction: column;
@@ -1070,6 +1435,10 @@
                         <i class="fas fa-tasks"></i>
                         <span>To-Do List</span>
                     </button>
+                    <button class="tab-btn" data-tab="notes">
+                        <i class="fas fa-sticky-note"></i>
+                        <span>Notes</span>
+                    </button>
                     <button class="tab-btn" data-tab="knowledge">
                         <i class="fas fa-book"></i>
                         <span>Knowledge</span>
@@ -1130,6 +1499,39 @@
                             
                             <div class="todo-stats" id="todoStats">
                                 <span class="todo-count">0 tasks</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="notes">
+                        <div class="notes-section">
+                            <div class="notes-header">
+                                <h3>My Notes</h3>
+                                <button class="add-note-btn" id="addNoteBtn">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="notes-search-container">
+                                <input type="text" id="notesSearch" placeholder="Search notes..." class="notes-search">
+                                <button class="search-btn" id="notesSearchBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="notes-filters">
+                                <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="recent">Recent</button>
+                                <button class="filter-btn" data-filter="favorites">Favorites</button>
+                                <button class="filter-btn" data-filter="tasks">With Tasks</button>
+                            </div>
+                            
+                            <div class="notes-list" id="notesList">
+                                <!-- Notes will be loaded here -->
+                            </div>
+                            
+                            <div class="notes-stats" id="notesStats">
+                                <span class="notes-count">0 notes</span>
                             </div>
                         </div>
                     </div>
@@ -1205,6 +1607,47 @@
         </main>
     </div>
 
+    <!-- Note Modal -->
+    <div class="note-modal" id="noteModal">
+        <div class="note-modal-content">
+            <div class="note-modal-header">
+                <h3 class="note-modal-title" id="noteModalTitle">Add Note</h3>
+                <button class="note-modal-close" id="noteModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="noteForm">
+                <div class="note-form-group">
+                    <label class="note-form-label" for="noteTitle">Title</label>
+                    <input type="text" id="noteTitle" class="note-form-input" placeholder="Enter note title..." required>
+                </div>
+                
+                <div class="note-form-group">
+                    <label class="note-form-label" for="noteContent">Content</label>
+                    <textarea id="noteContent" class="note-form-input note-form-textarea" placeholder="Write your note here..." required></textarea>
+                </div>
+                
+                <div class="note-form-group">
+                    <label class="note-form-label" for="noteTags">Tags (comma-separated)</label>
+                    <input type="text" id="noteTags" class="note-form-input" placeholder="e.g., work, urgent, meeting">
+                </div>
+                
+                <div class="note-form-group">
+                    <label class="note-form-label" for="noteTaskId">Associate with Task (optional)</label>
+                    <select id="noteTaskId" class="note-form-input">
+                        <option value="">Select a task...</option>
+                    </select>
+                </div>
+                
+                <div class="note-form-actions">
+                    <button type="button" class="note-form-btn secondary" id="noteCancelBtn">Cancel</button>
+                    <button type="submit" class="note-form-btn primary" id="noteSaveBtn">Save Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
   <script>
         class DudeBot {
             constructor() {
@@ -1225,6 +1668,12 @@
                 this.currentFilter = 'all';
                 this.editingTodoId = null;
                 
+                // Notes properties
+                this.notes = JSON.parse(localStorage.getItem('notes')) || [];
+                this.currentNotesFilter = 'all';
+                this.editingNoteId = null;
+                this.notesSearchQuery = '';
+                
                 this.init();
             }
 
@@ -1233,6 +1682,7 @@
                 this.setupTheme();
                 this.setupVoiceRecognition();
                 this.setupTodoList();
+                this.setupNotesList();
                 this.loadCategories();
                 this.setupAutoResize();
                 this.checkMicrophonePermission();
@@ -1487,6 +1937,13 @@
 
                 // Check for todo commands first
                 if (await this.processTodoCommand(message)) {
+                    this.chatInput.value = '';
+                    this.chatInput.style.height = 'auto';
+                    return;
+                }
+
+                // Check for notes commands
+                if (await this.processNotesCommand(message)) {
                     this.chatInput.value = '';
                     this.chatInput.style.height = 'auto';
                     return;
@@ -1925,6 +2382,367 @@
                 
                 // Switch to todo tab
                 this.switchTab('todo-list');
+            }
+
+            // Notes Management Methods
+            setupNotesList() {
+                this.setupNotesEventListeners();
+                this.renderNotes();
+                this.updateNotesStats();
+                this.populateTaskSelect();
+            }
+
+            setupNotesEventListeners() {
+                // Add note button
+                document.getElementById('addNoteBtn').addEventListener('click', () => {
+                    this.showNoteModal();
+                });
+
+                // Notes search
+                document.getElementById('notesSearch').addEventListener('input', (e) => {
+                    this.notesSearchQuery = e.target.value;
+                    this.renderNotes();
+                });
+
+                document.getElementById('notesSearchBtn').addEventListener('click', () => {
+                    this.renderNotes();
+                });
+
+                // Notes filters
+                document.querySelectorAll('.notes-filters .filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.setNotesFilter(e.target.dataset.filter);
+                    });
+                });
+
+                // Note modal events
+                document.getElementById('noteModalClose').addEventListener('click', () => {
+                    this.hideNoteModal();
+                });
+
+                document.getElementById('noteCancelBtn').addEventListener('click', () => {
+                    this.hideNoteModal();
+                });
+
+                document.getElementById('noteForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveNote();
+                });
+
+                // Close modal on outside click
+                document.getElementById('noteModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'noteModal') {
+                        this.hideNoteModal();
+                    }
+                });
+            }
+
+            async processNotesCommand(message) {
+                // Send to backend for AI-powered intent recognition
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            message: message,
+                            context: 'notes_management',
+                            notes: this.notes,
+                            todos: this.todos
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    // If the AI detected a notes command and executed it
+                    if (data.notesAction) {
+                        this.handleNotesAction(data.notesAction);
+                        return true;
+                    }
+                    
+                    return false;
+                } catch (error) {
+                    console.error('Error processing notes command:', error);
+                    return false;
+                }
+            }
+
+            handleNotesAction(action) {
+                switch (action.type) {
+                    case 'create':
+                        this.createNoteFromCommand(action.title, action.content, action.tags, action.taskId);
+                        this.addMessage(`✅ Note created: "${action.title}"`, 'bot');
+                        break;
+                    case 'search':
+                        this.searchNotes(action.query);
+                        this.addMessage(`🔍 Searching notes for: "${action.query}"`, 'bot');
+                        break;
+                    case 'associate':
+                        this.associateNoteWithTask(action.noteId, action.taskId);
+                        this.addMessage(`✅ Note associated with task`, 'bot');
+                        break;
+                    case 'favorite':
+                        this.toggleNoteFavorite(action.noteId);
+                        const note = this.notes.find(n => n.id === action.noteId);
+                        this.addMessage(`✅ Note ${note.favorite ? 'favorited' : 'unfavorited'}: "${note.title}"`, 'bot');
+                        break;
+                }
+            }
+
+            createNoteFromCommand(title, content, tags = [], taskId = null) {
+                const newNote = {
+                    id: Date.now().toString(),
+                    title: title,
+                    content: content,
+                    tags: tags,
+                    taskId: taskId,
+                    favorite: false,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                this.notes.unshift(newNote);
+                this.saveNotes();
+                this.renderNotes();
+                this.updateNotesStats();
+                this.populateTaskSelect();
+                
+                // Switch to notes tab
+                this.switchTab('notes');
+            }
+
+            showNoteModal(noteId = null) {
+                this.editingNoteId = noteId;
+                const modal = document.getElementById('noteModal');
+                const title = document.getElementById('noteModalTitle');
+                const form = document.getElementById('noteForm');
+                
+                if (noteId) {
+                    const note = this.notes.find(n => n.id === noteId);
+                    if (note) {
+                        title.textContent = 'Edit Note';
+                        document.getElementById('noteTitle').value = note.title;
+                        document.getElementById('noteContent').value = note.content;
+                        document.getElementById('noteTags').value = note.tags.join(', ');
+                        document.getElementById('noteTaskId').value = note.taskId || '';
+                    }
+                } else {
+                    title.textContent = 'Add Note';
+                    form.reset();
+                }
+                
+                this.populateTaskSelect();
+                modal.classList.add('show');
+            }
+
+            hideNoteModal() {
+                const modal = document.getElementById('noteModal');
+                modal.classList.remove('show');
+                this.editingNoteId = null;
+            }
+
+            saveNote() {
+                const title = document.getElementById('noteTitle').value.trim();
+                const content = document.getElementById('noteContent').value.trim();
+                const tags = document.getElementById('noteTags').value.split(',').map(t => t.trim()).filter(t => t);
+                const taskId = document.getElementById('noteTaskId').value || null;
+                
+                if (!title || !content) return;
+
+                if (this.editingNoteId) {
+                    // Edit existing note
+                    const note = this.notes.find(n => n.id === this.editingNoteId);
+                    if (note) {
+                        note.title = title;
+                        note.content = content;
+                        note.tags = tags;
+                        note.taskId = taskId;
+                        note.updatedAt = new Date().toISOString();
+                    }
+                } else {
+                    // Add new note
+                    const newNote = {
+                        id: Date.now().toString(),
+                        title: title,
+                        content: content,
+                        tags: tags,
+                        taskId: taskId,
+                        favorite: false,
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    };
+                    this.notes.unshift(newNote);
+                }
+
+                this.saveNotes();
+                this.renderNotes();
+                this.updateNotesStats();
+                this.hideNoteModal();
+            }
+
+            deleteNote(noteId) {
+                this.notes = this.notes.filter(note => note.id !== noteId);
+                this.saveNotes();
+                this.renderNotes();
+                this.updateNotesStats();
+            }
+
+            toggleNoteFavorite(noteId) {
+                const note = this.notes.find(n => n.id === noteId);
+                if (note) {
+                    note.favorite = !note.favorite;
+                    note.updatedAt = new Date().toISOString();
+                    this.saveNotes();
+                    this.renderNotes();
+                }
+            }
+
+            searchNotes(query) {
+                this.notesSearchQuery = query;
+                document.getElementById('notesSearch').value = query;
+                this.renderNotes();
+                this.switchTab('notes');
+            }
+
+            setNotesFilter(filter) {
+                this.currentNotesFilter = filter;
+                
+                // Update filter buttons
+                document.querySelectorAll('.notes-filters .filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+                
+                this.renderNotes();
+            }
+
+            getFilteredNotes() {
+                let filtered = this.notes;
+
+                // Apply search filter
+                if (this.notesSearchQuery) {
+                    const query = this.notesSearchQuery.toLowerCase();
+                    filtered = filtered.filter(note => 
+                        note.title.toLowerCase().includes(query) ||
+                        note.content.toLowerCase().includes(query) ||
+                        note.tags.some(tag => tag.toLowerCase().includes(query))
+                    );
+                }
+
+                // Apply category filter
+                switch (this.currentNotesFilter) {
+                    case 'recent':
+                        filtered = filtered.filter(note => {
+                            const noteDate = new Date(note.updatedAt);
+                            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+                            return noteDate > weekAgo;
+                        });
+                        break;
+                    case 'favorites':
+                        filtered = filtered.filter(note => note.favorite);
+                        break;
+                    case 'tasks':
+                        filtered = filtered.filter(note => note.taskId);
+                        break;
+                }
+
+                return filtered;
+            }
+
+            renderNotes() {
+                const notesList = document.getElementById('notesList');
+                const filteredNotes = this.getFilteredNotes();
+
+                if (filteredNotes.length === 0) {
+                    notesList.innerHTML = `
+                        <div class="notes-empty">
+                            <i class="fas fa-sticky-note"></i>
+                            <div>No notes found</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                notesList.innerHTML = filteredNotes.map(note => {
+                    const task = note.taskId ? this.todos.find(t => t.id === note.taskId) : null;
+                    const tags = note.tags.map(tag => {
+                        let className = 'note-tag';
+                        if (tag.toLowerCase().includes('urgent')) className += ' urgent-tag';
+                        else if (tag.toLowerCase().includes('important')) className += ' important-tag';
+                        else if (task) className += ' task-tag';
+                        return `<span class="${className}">${tag}</span>`;
+                    }).join('');
+
+                    return `
+                        <div class="note-card ${note.favorite ? 'favorite' : ''}" data-id="${note.id}">
+                            <div class="note-header">
+                                <h4 class="note-title">${note.title}</h4>
+                                <div class="note-actions">
+                                    <button class="note-action-btn note-favorite-btn ${note.favorite ? 'favorited' : ''}" 
+                                            onclick="dudeBot.toggleNoteFavorite('${note.id}')" title="Favorite">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                    <button class="note-action-btn note-edit-btn" 
+                                            onclick="dudeBot.showNoteModal('${note.id}')" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="note-action-btn note-delete-btn" 
+                                            onclick="dudeBot.deleteNote('${note.id}')" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="note-content">${note.content}</div>
+                            <div class="note-meta">
+                                <div class="note-tags">
+                                    ${tags}
+                                    ${task ? `<span class="note-tag task-tag">${task.text}</span>` : ''}
+                                </div>
+                                <div class="note-date">${new Date(note.updatedAt).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            updateNotesStats() {
+                const stats = document.getElementById('notesStats');
+                const total = this.notes.length;
+                const favorites = this.notes.filter(n => n.favorite).length;
+                const withTasks = this.notes.filter(n => n.taskId).length;
+                
+                stats.innerHTML = `
+                    <span class="notes-count">${total} notes</span>
+                    <span class="notes-favorites">${favorites} favorites</span>
+                    <span class="notes-tasks">${withTasks} with tasks</span>
+                `;
+            }
+
+            populateTaskSelect() {
+                const select = document.getElementById('noteTaskId');
+                select.innerHTML = '<option value="">Select a task...</option>';
+                
+                this.todos.forEach(todo => {
+                    const option = document.createElement('option');
+                    option.value = todo.id;
+                    option.textContent = todo.text;
+                    select.appendChild(option);
+                });
+            }
+
+            associateNoteWithTask(noteId, taskId) {
+                const note = this.notes.find(n => n.id === noteId);
+                if (note) {
+                    note.taskId = taskId;
+                    note.updatedAt = new Date().toISOString();
+                    this.saveNotes();
+                    this.renderNotes();
+                }
+            }
+
+            saveNotes() {
+                localStorage.setItem('notes', JSON.stringify(this.notes));
             }
         }
 
