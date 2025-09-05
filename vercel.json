@@ -1,34 +1,18 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "server/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
+  "functions": {
+    "server/index.js": {
+      "runtime": "nodejs18.x"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server/index.js"
-    },
-    {
-      "src": "/auth/(.*)",
-      "dest": "server/index.js"
-    },
-    {
-      "src": "/",
-      "dest": "client/index.html"
+      "dest": "/server/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "client/$1"
+      "dest": "/client/index.html"
     }
   ],
   "env": {

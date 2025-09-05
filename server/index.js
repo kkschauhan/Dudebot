@@ -217,12 +217,12 @@ IMPORTANT INSTRUCTIONS:
 
 Your goal is to be helpful, accurate, and professional in all interactions.`;
     
-    let context = '';
+    let contextInfo = '';
     let sources = [];
     
     if (knowledgeResult.type === 'document') {
       const formattedAnswer = knowledgeBase.formatAsMarkdown(knowledgeResult.answer);
-      context = `Relevant information from ${knowledgeResult.document} (${knowledgeResult.category}):\n${formattedAnswer}`;
+      contextInfo = `Relevant information from ${knowledgeResult.document} (${knowledgeResult.category}):\n${formattedAnswer}`;
       sources.push({
         title: knowledgeResult.document,
         confidence: Math.round(knowledgeResult.confidence * 100),
@@ -231,23 +231,23 @@ Your goal is to be helpful, accurate, and professional in all interactions.`;
         matchedTerms: knowledgeResult.matchedTerms
       });
     } else if (knowledgeResult.type === 'faq') {
-      context = `FAQ Answer: ${knowledgeResult.answer}`;
+      contextInfo = `FAQ Answer: ${knowledgeResult.answer}`;
       sources.push({
         title: 'Company FAQ',
         confidence: 95,
         type: 'faq'
       });
     } else if (knowledgeResult.type === 'contact') {
-      context = `Contact Information: ${knowledgeResult.department} - Email: ${knowledgeResult.email || 'N/A'}, Extension: ${knowledgeResult.ext || 'N/A'}`;
+      contextInfo = `Contact Information: ${knowledgeResult.department} - Email: ${knowledgeResult.email || 'N/A'}, Extension: ${knowledgeResult.ext || 'N/A'}`;
       sources.push({
         title: `Contact: ${knowledgeResult.department}`,
         confidence: Math.round(knowledgeResult.confidence * 100),
         type: 'contact'
       });
     } else if (knowledgeResult.type === 'partial') {
-      context = `Partial match found: ${knowledgeResult.document}. ${knowledgeResult.answer}`;
+      contextInfo = `Partial match found: ${knowledgeResult.document}. ${knowledgeResult.answer}`;
       if (knowledgeResult.suggestions) {
-        context += `\n\nSuggestions: ${knowledgeResult.suggestions.join(', ')}`;
+        contextInfo += `\n\nSuggestions: ${knowledgeResult.suggestions.join(', ')}`;
       }
       sources.push({
         title: knowledgeResult.document,
@@ -267,7 +267,7 @@ Your goal is to be helpful, accurate, and professional in all interactions.`;
       const messages = [
         { 
           role: 'system', 
-          content: systemPrompt + (context ? `\n\nUse this information to answer the user's question accurately:\n${context}` : '')
+          content: systemPrompt + (contextInfo ? `\n\nUse this information to answer the user's question accurately:\n${contextInfo}` : '')
         },
         { role: 'user', content: userMessage }
       ];
@@ -394,6 +394,12 @@ app.get('/api/search', (req, res) => {
   res.json({ results: results.slice(0, 5) }); // Return top 5 results
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// For Vercel deployment, export the app instead of listening
+if (process.env.NODE_ENV === 'production') {
+  module.exports = app;
+} else {
+  // For local development, start the server
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}
