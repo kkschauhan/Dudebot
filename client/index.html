@@ -20,24 +20,51 @@
     <script defer src="/_vercel/speed-insights/script.js"></script>
   <style>
         :root {
-            --primary-color: #2563eb;
-            --primary-hover: #1d4ed8;
-            --secondary-color: #64748b;
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #a5b4fc;
+            --secondary-color: #8b5cf6;
+            --secondary-hover: #7c3aed;
+            --accent-color: #06b6d4;
+            --accent-hover: #0891b2;
             --success-color: #10b981;
+            --success-hover: #059669;
             --warning-color: #f59e0b;
+            --warning-hover: #d97706;
             --error-color: #ef4444;
+            --error-hover: #dc2626;
+            --info-color: #3b82f6;
+            --info-hover: #2563eb;
+            
             --bg-primary: #ffffff;
             --bg-secondary: #f8fafc;
             --bg-tertiary: #f1f5f9;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
+            --bg-accent: #f0f9ff;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --bg-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            
             --border-color: #e2e8f0;
+            --border-light: #f1f5f9;
+            --border-accent: #cbd5e1;
+            
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+            --shadow-glow: 0 0 20px rgb(99, 102, 241, 0.3);
+            
             --radius: 0.5rem;
             --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="dark"] {
@@ -509,248 +536,643 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notes-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--bg-gradient);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         }
 
         .notes-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .notes-header h3 {
             margin: 0;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .add-note-btn {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: var(--primary-color);
+            background: var(--bg-gradient);
             color: white;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .add-note-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-gradient-2);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .add-note-btn:hover::before {
+            opacity: 1;
         }
 
         .add-note-btn:hover {
-            background: var(--primary-hover);
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .add-note-btn i {
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
         }
 
         .notes-search-container {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .notes-search {
             flex: 1;
-            padding: 0.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-xl);
             background: var(--bg-primary);
             color: var(--text-primary);
             font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
         }
 
         .notes-search:focus {
             outline: none;
             border-color: var(--primary-color);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-1px);
+        }
+
+        .notes-search::placeholder {
+            color: var(--text-light);
+            font-style: italic;
         }
 
         .search-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius);
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-xl);
+            background: var(--bg-gradient);
+            color: white;
+            border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-gradient-3);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover::before {
+            opacity: 1;
         }
 
         .search-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .search-btn i {
+            position: relative;
+            z-index: 1;
         }
 
         .notes-filters {
             display: flex;
-            gap: 0.25rem;
-            margin-bottom: 1rem;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-xl);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border: 2px solid var(--border-light);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-gradient);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover::before {
+            opacity: 0.1;
+        }
+
+        .filter-btn.active {
+            background: var(--bg-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: var(--shadow-md);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .smart-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        .smart-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-gradient-3);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .smart-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-gradient);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .smart-btn:hover::before {
+            opacity: 1;
+        }
+
+        .smart-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .smart-btn i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .smart-btn:nth-child(1) {
+            background: var(--bg-gradient);
+        }
+
+        .smart-btn:nth-child(2) {
+            background: var(--bg-gradient-2);
+        }
+
+        .smart-btn:nth-child(3) {
+            background: var(--bg-gradient-3);
+        }
+
+        .template-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .template-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .template-card h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .template-card p {
+            margin: 0 0 0.75rem 0;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .template-tags {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .template-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.125rem 0.375rem;
+            border-radius: var(--radius);
+            font-size: 0.7rem;
+            font-weight: 600;
         }
 
         .notes-list {
             flex: 1;
             overflow-y: auto;
-            max-height: 300px;
+            max-height: 320px;
             margin-bottom: 1rem;
+            padding-right: 0.5rem;
+        }
+
+        .notes-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .notes-list::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+        }
+
+        .notes-list::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 2px;
         }
 
         .note-card {
             background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            transition: all 0.2s ease;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
             cursor: pointer;
             position: relative;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .note-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--bg-gradient);
+            transform: scaleX(0);
+            transition: var(--transition);
         }
 
         .note-card:hover {
             border-color: var(--primary-color);
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .note-card:hover::before {
+            transform: scaleX(1);
         }
 
         .note-card.favorite {
             border-color: var(--warning-color);
-            background: linear-gradient(135deg, var(--bg-primary) 0%, #fef3c7 100%);
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .note-card.favorite::before {
+            background: var(--warning-color);
+            transform: scaleX(1);
         }
 
         .note-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .note-title {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-primary);
-            font-size: 0.9rem;
+            font-size: 1rem;
             margin: 0;
             flex: 1;
-            margin-right: 0.5rem;
+            margin-right: 0.75rem;
+            line-height: 1.3;
         }
 
         .note-actions {
             display: flex;
-            gap: 0.25rem;
+            gap: 0.5rem;
             opacity: 0;
-            transition: opacity 0.2s ease;
+            transition: var(--transition);
+            transform: translateX(10px);
         }
 
         .note-card:hover .note-actions {
             opacity: 1;
+            transform: translateX(0);
         }
 
         .note-action-btn {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
-            transition: all 0.2s ease;
+            font-size: 0.75rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .note-action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .note-action-btn:hover::before {
+            opacity: 1;
         }
 
         .note-favorite-btn {
             background: var(--warning-color);
             color: white;
+            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
         }
 
         .note-favorite-btn.favorited {
             background: var(--warning-color);
             color: white;
+            animation: pulse 2s infinite;
         }
 
         .note-edit-btn {
             background: var(--primary-color);
             color: white;
+            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
         }
 
         .note-delete-btn {
             background: var(--error-color);
             color: white;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+        }
+
+        .note-action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .note-content {
             color: var(--text-secondary);
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            position: relative;
+        }
+
+        .note-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 20px;
+            background: linear-gradient(90deg, transparent, var(--bg-primary));
         }
 
         .note-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
+            margin-top: 0.5rem;
         }
 
         .note-tags {
             display: flex;
-            gap: 0.25rem;
+            gap: 0.375rem;
             flex-wrap: wrap;
         }
 
         .note-tag {
-            background: var(--bg-secondary);
+            background: var(--bg-tertiary);
             color: var(--text-secondary);
-            padding: 0.125rem 0.375rem;
-            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius);
             font-size: 0.7rem;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .note-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-gradient);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .note-tag:hover::before {
+            opacity: 0.1;
         }
 
         .note-tag.task-tag {
             background: var(--primary-color);
             color: white;
+            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
         }
 
         .note-tag.urgent-tag {
             background: var(--error-color);
             color: white;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+            animation: urgent-pulse 2s infinite;
         }
 
         .note-tag.important-tag {
             background: var(--warning-color);
             color: white;
+            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
         }
 
         .note-date {
-            font-size: 0.7rem;
-            color: var(--text-muted);
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        @keyframes urgent-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .notes-stats {
             text-align: center;
-            padding: 0.5rem;
-            background: var(--bg-primary);
-            border-radius: var(--radius);
+            padding: 0.75rem;
+            background: var(--bg-gradient);
+            border-radius: var(--radius-lg);
             font-size: 0.8rem;
-            color: var(--text-secondary);
+            color: white;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notes-stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-gradient-2);
+            opacity: 0.1;
+        }
+
+        .notes-stats span {
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+            margin: 0 0.5rem;
         }
 
         .notes-empty {
             text-align: center;
             color: var(--text-secondary);
             font-style: italic;
-            padding: 2rem 1rem;
+            padding: 3rem 1rem;
+            background: var(--bg-accent);
+            border-radius: var(--radius-lg);
+            border: 2px dashed var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notes-empty::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-gradient);
+            opacity: 0.05;
         }
 
         .notes-empty i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.5;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .notes-empty div {
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
         }
 
         /* Note Modal Styles */
@@ -1524,6 +1946,18 @@
                                 <button class="filter-btn" data-filter="recent">Recent</button>
                                 <button class="filter-btn" data-filter="favorites">Favorites</button>
                                 <button class="filter-btn" data-filter="tasks">With Tasks</button>
+                            </div>
+                            
+                            <div class="smart-actions">
+                                <button class="smart-btn" id="quickNoteBtn" title="Quick Note">
+                                    <i class="fas fa-bolt"></i>
+                                </button>
+                                <button class="smart-btn" id="templateBtn" title="Templates">
+                                    <i class="fas fa-magic"></i>
+                                </button>
+                                <button class="smart-btn" id="aiSuggestBtn" title="AI Suggestions">
+                                    <i class="fas fa-brain"></i>
+                                </button>
                             </div>
                             
                             <div class="notes-list" id="notesList">
@@ -2435,6 +2869,19 @@
                         this.hideNoteModal();
                     }
                 });
+
+                // Smart actions
+                document.getElementById('quickNoteBtn').addEventListener('click', () => {
+                    this.createQuickNote();
+                });
+
+                document.getElementById('templateBtn').addEventListener('click', () => {
+                    this.showTemplates();
+                });
+
+                document.getElementById('aiSuggestBtn').addEventListener('click', () => {
+                    this.getAISuggestions();
+                });
             }
 
             async processNotesCommand(message) {
@@ -2743,6 +3190,138 @@
 
             saveNotes() {
                 localStorage.setItem('notes', JSON.stringify(this.notes));
+            }
+
+            // Smart Features
+            createQuickNote() {
+                const quickNote = {
+                    id: Date.now().toString(),
+                    title: `Quick Note ${new Date().toLocaleTimeString()}`,
+                    content: 'Click to edit this quick note...',
+                    tags: ['quick'],
+                    taskId: null,
+                    favorite: false,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                this.notes.unshift(quickNote);
+                this.saveNotes();
+                this.renderNotes();
+                this.updateNotesStats();
+                this.showNoteModal(quickNote.id);
+                
+                this.addMessage(`⚡ Quick note created!`, 'bot');
+            }
+
+            showTemplates() {
+                const templates = [
+                    {
+                        title: 'Meeting Notes',
+                        content: '## Meeting: [Topic]\n\n**Date:** [Date]\n**Attendees:** [List]\n\n### Agenda\n- [ ] Item 1\n- [ ] Item 2\n\n### Action Items\n- [ ] [Action] - [Assignee] - [Due Date]\n\n### Notes\n[Key points and decisions]',
+                        tags: ['meeting', 'template']
+                    },
+                    {
+                        title: 'Project Update',
+                        content: '## Project: [Project Name]\n\n**Status:** [In Progress/Completed/On Hold]\n**Progress:** [X]%\n\n### This Week\n- [What was accomplished]\n\n### Next Week\n- [What needs to be done]\n\n### Blockers\n- [Any issues or dependencies]',
+                        tags: ['project', 'template', 'update']
+                    },
+                    {
+                        title: 'Ideas & Brainstorming',
+                        content: '## 💡 Ideas\n\n### [Topic/Problem]\n\n**The Problem:**\n[Describe the problem]\n\n**Potential Solutions:**\n1. [Solution 1]\n2. [Solution 2]\n3. [Solution 3]\n\n**Next Steps:**\n- [ ] [Action item]\n- [ ] [Research needed]',
+                        tags: ['ideas', 'template', 'brainstorming']
+                    },
+                    {
+                        title: 'Daily Standup',
+                        content: '## Daily Standup - [Date]\n\n### What I did yesterday:\n- [Accomplishment 1]\n- [Accomplishment 2]\n\n### What I\'m doing today:\n- [Task 1]\n- [Task 2]\n\n### Blockers:\n- [Any impediments]',
+                        tags: ['standup', 'template', 'daily']
+                    }
+                ];
+
+                const templateHtml = templates.map((template, index) => `
+                    <div class="template-card" onclick="dudeBot.useTemplate(${index})">
+                        <h4>${template.title}</h4>
+                        <p>${template.content.substring(0, 100)}...</p>
+                        <div class="template-tags">
+                            ${template.tags.map(tag => `<span class="template-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+
+                this.addMessage(`📝 **Note Templates Available:**\n\n${templateHtml}`, 'bot');
+            }
+
+            useTemplate(templateIndex) {
+                const templates = [
+                    {
+                        title: 'Meeting Notes',
+                        content: '## Meeting: [Topic]\n\n**Date:** [Date]\n**Attendees:** [List]\n\n### Agenda\n- [ ] Item 1\n- [ ] Item 2\n\n### Action Items\n- [ ] [Action] - [Assignee] - [Due Date]\n\n### Notes\n[Key points and decisions]',
+                        tags: ['meeting', 'template']
+                    },
+                    {
+                        title: 'Project Update',
+                        content: '## Project: [Project Name]\n\n**Status:** [In Progress/Completed/On Hold]\n**Progress:** [X]%\n\n### This Week\n- [What was accomplished]\n\n### Next Week\n- [What needs to be done]\n\n### Blockers\n- [Any issues or dependencies]',
+                        tags: ['project', 'template', 'update']
+                    },
+                    {
+                        title: 'Ideas & Brainstorming',
+                        content: '## 💡 Ideas\n\n### [Topic/Problem]\n\n**The Problem:**\n[Describe the problem]\n\n**Potential Solutions:**\n1. [Solution 1]\n2. [Solution 2]\n3. [Solution 3]\n\n**Next Steps:**\n- [ ] [Action item]\n- [ ] [Research needed]',
+                        tags: ['ideas', 'template', 'brainstorming']
+                    },
+                    {
+                        title: 'Daily Standup',
+                        content: '## Daily Standup - [Date]\n\n### What I did yesterday:\n- [Accomplishment 1]\n- [Accomplishment 2]\n\n### What I\'m doing today:\n- [Task 1]\n- [Task 2]\n\n### Blockers:\n- [Any impediments]',
+                        tags: ['standup', 'template', 'daily']
+                    }
+                ];
+
+                const template = templates[templateIndex];
+                const newNote = {
+                    id: Date.now().toString(),
+                    title: template.title,
+                    content: template.content,
+                    tags: template.tags,
+                    taskId: null,
+                    favorite: false,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                this.notes.unshift(newNote);
+                this.saveNotes();
+                this.renderNotes();
+                this.updateNotesStats();
+                this.showNoteModal(newNote.id);
+                
+                this.addMessage(`✅ Template "${template.title}" applied!`, 'bot');
+            }
+
+            async getAISuggestions() {
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: 'Suggest some useful note templates and categories based on my current notes and tasks',
+                            context: 'ai_suggestions',
+                            notes: this.notes,
+                            todos: this.todos
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.reply) {
+                        this.addMessage(`🧠 **AI Suggestions:**\n\n${data.reply}`, 'bot');
+                    } else {
+                        this.addMessage(`💡 **Smart Suggestions:**\n\n• Create meeting notes for your upcoming tasks\n• Add project updates for ongoing work\n• Use tags like "urgent", "important", "meeting" for better organization\n• Associate notes with specific tasks for better context`, 'bot');
+                    }
+                } catch (error) {
+                    console.error('Error getting AI suggestions:', error);
+                    this.addMessage(`💡 **Smart Suggestions:**\n\n• Create meeting notes for your upcoming tasks\n• Add project updates for ongoing work\n• Use tags like "urgent", "important", "meeting" for better organization\n• Associate notes with specific tasks for better context`, 'bot');
+                }
             }
         }
 
