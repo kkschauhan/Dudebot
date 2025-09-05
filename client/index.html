@@ -20,61 +20,69 @@
     <script defer src="/_vercel/speed-insights/script.js"></script>
   <style>
         :root {
-            --primary-color: #6366f1;
-            --primary-hover: #4f46e5;
-            --primary-light: #a5b4fc;
-            --secondary-color: #8b5cf6;
-            --secondary-hover: #7c3aed;
-            --accent-color: #06b6d4;
-            --accent-hover: #0891b2;
+            /* Cred-inspired color palette */
+            --primary-color: #000000;
+            --primary-hover: #1a1a1a;
+            --secondary-color: #6b7280;
+            --accent-color: #3b82f6;
             --success-color: #10b981;
-            --success-hover: #059669;
             --warning-color: #f59e0b;
-            --warning-hover: #d97706;
             --error-color: #ef4444;
-            --error-hover: #dc2626;
-            --info-color: #3b82f6;
-            --info-hover: #2563eb;
             
+            /* Background colors */
             --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --bg-accent: #f0f9ff;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --bg-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --bg-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            --bg-card: #ffffff;
+            --bg-hover: #f8fafc;
             
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #64748b;
-            --text-light: #94a3b8;
+            /* Text colors */
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --text-light: #9ca3af;
             
-            --border-color: #e2e8f0;
-            --border-light: #f1f5f9;
-            --border-accent: #cbd5e1;
-            
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            /* Border and effects */
+            --border-color: #e5e7eb;
+            --border-light: #f3f4f6;
+            --border-dark: #d1d5db;
+            --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px 0 rgb(0 0 0 / 0.06);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
             --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
-            --shadow-glow: 0 0 20px rgb(99, 102, 241, 0.3);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
             
-            --radius: 0.5rem;
+            /* Border radius */
+            --radius: 0.375rem;
+            --radius-md: 0.5rem;
             --radius-lg: 0.75rem;
             --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
             
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 0.75rem;
+            --space-lg: 1rem;
+            --space-xl: 1.5rem;
+            --space-2xl: 2rem;
+            --space-3xl: 3rem;
         }
 
         [data-theme="dark"] {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-muted: #64748b;
-            --border-color: #334155;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --bg-card: #111111;
+            --bg-hover: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --text-light: #737373;
+            --border-color: #262626;
+            --border-light: #1a1a1a;
+            --border-dark: #404040;
         }
 
         * {
@@ -89,37 +97,50 @@
             color: var(--text-primary);
             line-height: 1.6;
             transition: all 0.3s ease;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .app-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            padding: var(--space-2xl);
+            gap: var(--space-2xl);
         }
 
         .header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl) var(--space-2xl);
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: var(--space-2xl);
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
-            font-weight: 700;
+            gap: var(--space-md);
+            font-size: 1.75rem;
+            font-weight: 800;
             color: var(--primary-color);
+            letter-spacing: -0.025em;
         }
 
         .logo i {
-            font-size: 2rem;
+            font-size: 2.25rem;
+            color: var(--accent-color);
         }
 
         .header-controls {
@@ -146,50 +167,58 @@
         .main-content {
             flex: 1;
             display: flex;
-            gap: 2rem;
-            padding: 2rem;
+            gap: var(--space-2xl);
+            align-items: flex-start;
         }
 
         .sidebar {
-            width: 300px;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
+            width: 320px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
             padding: 0;
             height: fit-content;
-            box-shadow: var(--shadow-sm);
             overflow: hidden;
+            position: sticky;
+            top: calc(var(--space-2xl) + 80px);
         }
 
         /* Sidebar Tabs */
         .sidebar-tabs {
             display: flex;
-            background: var(--bg-primary);
+            background: var(--bg-tertiary);
             border-bottom: 1px solid var(--border-color);
+            padding: var(--space-xs);
+            gap: var(--space-xs);
         }
 
         .tab-btn {
             flex: 1;
-            padding: 0.75rem 0.5rem;
-            background: none;
+            padding: var(--space-md) var(--space-sm);
+            background: transparent;
             border: none;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.25rem;
+            gap: var(--space-xs);
+            border-radius: var(--radius-md);
+            font-weight: 600;
         }
 
         .tab-btn:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
+            background: var(--bg-hover);
+            color: var(--text-secondary);
         }
 
         .tab-btn.active {
-            background: var(--primary-color);
-            color: white;
+            background: var(--bg-card);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-xs);
         }
 
         .tab-btn i {
@@ -198,11 +227,11 @@
 
         .tab-btn span {
             font-size: 0.7rem;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .tab-content {
-            padding: 1.5rem;
+            padding: var(--space-xl);
         }
 
         .tab-panel {
@@ -376,18 +405,21 @@
         .todo-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem;
-            background: var(--bg-primary);
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            margin-bottom: 0.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-md);
             transition: all 0.2s ease;
+            box-shadow: var(--shadow-xs);
         }
 
         .todo-item:hover {
-            background: var(--bg-secondary);
+            background: var(--bg-hover);
             border-color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-1px);
         }
 
         .todo-item.completed {
@@ -536,643 +568,251 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border-radius: var(--radius-lg);
-            padding: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .notes-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--bg-gradient);
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         }
 
         .notes-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
-            position: relative;
+            margin-bottom: 1rem;
         }
 
         .notes-header h3 {
             margin: 0;
-            font-size: 1.1rem;
-            font-weight: 700;
-            background: var(--bg-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 1rem;
         }
 
         .add-note-btn {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: var(--bg-gradient);
+            background: var(--primary-color);
             color: white;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .add-note-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-gradient-2);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .add-note-btn:hover::before {
-            opacity: 1;
+            transition: all 0.2s ease;
         }
 
         .add-note-btn:hover {
-            transform: scale(1.1) rotate(90deg);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .add-note-btn i {
-            position: relative;
-            z-index: 1;
-            transition: var(--transition);
+            background: var(--primary-hover);
+            transform: scale(1.1);
         }
 
         .notes-search-container {
             display: flex;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            position: relative;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .notes-search {
             flex: 1;
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-xl);
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
             background: var(--bg-primary);
             color: var(--text-primary);
             font-size: 0.9rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
         }
 
         .notes-search:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: var(--shadow-glow);
-            transform: translateY(-1px);
-        }
-
-        .notes-search::placeholder {
-            color: var(--text-light);
-            font-style: italic;
         }
 
         .search-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-xl);
-            background: var(--bg-gradient);
-            color: white;
-            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius);
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .search-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-gradient-3);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .search-btn:hover::before {
-            opacity: 1;
+            transition: all 0.2s ease;
         }
 
         .search-btn:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .search-btn i {
-            position: relative;
-            z-index: 1;
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
 
         .notes-filters {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius-xl);
-            background: var(--bg-primary);
-            color: var(--text-secondary);
-            border: 2px solid var(--border-light);
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .filter-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-gradient);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .filter-btn:hover::before {
-            opacity: 0.1;
-        }
-
-        .filter-btn.active {
-            background: var(--bg-gradient);
-            color: white;
-            border-color: transparent;
-            box-shadow: var(--shadow-md);
-        }
-
-        .filter-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .smart-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            justify-content: center;
-        }
-
-        .smart-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--bg-gradient-3);
-            color: white;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .smart-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-gradient);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .smart-btn:hover::before {
-            opacity: 1;
-        }
-
-        .smart-btn:hover {
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .smart-btn i {
-            position: relative;
-            z-index: 1;
-        }
-
-        .smart-btn:nth-child(1) {
-            background: var(--bg-gradient);
-        }
-
-        .smart-btn:nth-child(2) {
-            background: var(--bg-gradient-2);
-        }
-
-        .smart-btn:nth-child(3) {
-            background: var(--bg-gradient-3);
-        }
-
-        .template-card {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: 1rem;
-            margin: 0.5rem 0;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .template-card:hover {
-            border-color: var(--primary-color);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-        }
-
-        .template-card h4 {
-            margin: 0 0 0.5rem 0;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-        }
-
-        .template-card p {
-            margin: 0 0 0.75rem 0;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            line-height: 1.4;
-        }
-
-        .template-tags {
-            display: flex;
             gap: 0.25rem;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
-        }
-
-        .template-tag {
-            background: var(--primary-color);
-            color: white;
-            padding: 0.125rem 0.375rem;
-            border-radius: var(--radius);
-            font-size: 0.7rem;
-            font-weight: 600;
         }
 
         .notes-list {
             flex: 1;
             overflow-y: auto;
-            max-height: 320px;
+            max-height: 300px;
             margin-bottom: 1rem;
-            padding-right: 0.5rem;
-        }
-
-        .notes-list::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .notes-list::-webkit-scrollbar-track {
-            background: var(--bg-tertiary);
-            border-radius: 2px;
-        }
-
-        .notes-list::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 2px;
         }
 
         .note-card {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-light);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            transition: var(--transition);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-lg);
+            transition: all 0.2s ease;
             cursor: pointer;
             position: relative;
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-        }
-
-        .note-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--bg-gradient);
-            transform: scaleX(0);
-            transition: var(--transition);
+            box-shadow: var(--shadow-xs);
         }
 
         .note-card:hover {
             border-color: var(--primary-color);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
             transform: translateY(-2px);
-        }
-
-        .note-card:hover::before {
-            transform: scaleX(1);
         }
 
         .note-card.favorite {
             border-color: var(--warning-color);
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
-        }
-
-        .note-card.favorite::before {
-            background: var(--warning-color);
-            transform: scaleX(1);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 1px var(--warning-color), var(--shadow-sm);
         }
 
         .note-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .note-title {
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text-primary);
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin: 0;
             flex: 1;
-            margin-right: 0.75rem;
-            line-height: 1.3;
+            margin-right: 0.5rem;
         }
 
         .note-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.25rem;
             opacity: 0;
-            transition: var(--transition);
-            transform: translateX(10px);
+            transition: opacity 0.2s ease;
         }
 
         .note-card:hover .note-actions {
             opacity: 1;
-            transform: translateX(0);
         }
 
         .note-action-btn {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .note-action-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.2);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .note-action-btn:hover::before {
-            opacity: 1;
+            font-size: 0.7rem;
+            transition: all 0.2s ease;
         }
 
         .note-favorite-btn {
             background: var(--warning-color);
             color: white;
-            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
         }
 
         .note-favorite-btn.favorited {
             background: var(--warning-color);
             color: white;
-            animation: pulse 2s infinite;
         }
 
         .note-edit-btn {
             background: var(--primary-color);
             color: white;
-            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
         }
 
         .note-delete-btn {
             background: var(--error-color);
             color: white;
-            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
-        }
-
-        .note-action-btn:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
 
         .note-content {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            position: relative;
-        }
-
-        .note-content::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 30px;
-            height: 20px;
-            background: linear-gradient(90deg, transparent, var(--bg-primary));
         }
 
         .note-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            margin-top: 0.5rem;
         }
 
         .note-tags {
             display: flex;
-            gap: 0.375rem;
+            gap: 0.25rem;
             flex-wrap: wrap;
         }
 
         .note-tag {
-            background: var(--bg-tertiary);
+            background: var(--bg-secondary);
             color: var(--text-secondary);
-            padding: 0.25rem 0.5rem;
-            border-radius: var(--radius);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
             font-size: 0.7rem;
-            font-weight: 600;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .note-tag::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-gradient);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .note-tag:hover::before {
-            opacity: 0.1;
         }
 
         .note-tag.task-tag {
             background: var(--primary-color);
             color: white;
-            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
         }
 
         .note-tag.urgent-tag {
             background: var(--error-color);
             color: white;
-            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
-            animation: urgent-pulse 2s infinite;
         }
 
         .note-tag.important-tag {
             background: var(--warning-color);
             color: white;
-            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
         }
 
         .note-date {
-            font-size: 0.75rem;
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
-        @keyframes urgent-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            font-size: 0.7rem;
+            color: var(--text-muted);
         }
 
         .notes-stats {
             text-align: center;
-            padding: 0.75rem;
-            background: var(--bg-gradient);
-            border-radius: var(--radius-lg);
+            padding: 0.5rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius);
             font-size: 0.8rem;
-            color: white;
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .notes-stats::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-gradient-2);
-            opacity: 0.1;
-        }
-
-        .notes-stats span {
-            position: relative;
-            z-index: 1;
-            font-weight: 600;
-            margin: 0 0.5rem;
+            color: var(--text-secondary);
         }
 
         .notes-empty {
             text-align: center;
             color: var(--text-secondary);
             font-style: italic;
-            padding: 3rem 1rem;
-            background: var(--bg-accent);
-            border-radius: var(--radius-lg);
-            border: 2px dashed var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .notes-empty::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-gradient);
-            opacity: 0.05;
+            padding: 2rem 1rem;
         }
 
         .notes-empty i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.6;
-            background: var(--bg-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            z-index: 1;
-        }
-
-        .notes-empty div {
-            position: relative;
-            z-index: 1;
-            font-weight: 600;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.5;
         }
 
         /* Note Modal Styles */
@@ -1194,14 +834,15 @@
         }
 
         .note-modal-content {
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
             width: 90%;
             max-width: 600px;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-2xl);
         }
 
         .note-modal-header {
@@ -1283,12 +924,58 @@
         .note-form-btn.primary {
             background: var(--primary-color);
             color: white;
+            font-weight: 600;
+        }
+
+        .note-form-btn.primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
         }
 
         .note-form-btn.secondary {
-            background: var(--bg-tertiary);
+            background: var(--bg-card);
             color: var(--text-primary);
             border: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .note-form-btn.secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-dark);
+        }
+
+        /* Additional visual enhancements */
+        .app-footer {
+            margin-top: var(--space-2xl);
+            padding: var(--space-xl);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .app-footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .app-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Smooth scrolling */
+        .chat-messages {
+            scroll-behavior: smooth;
+        }
+
+        /* Focus states */
+        .chat-input:focus,
+        .notes-search:focus,
+        .note-form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         .categories {
@@ -1317,27 +1004,30 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
             box-shadow: var(--shadow-sm);
             overflow: hidden;
+            min-height: 600px;
         }
 
         .chat-header {
-            background: var(--bg-primary);
-            padding: 1rem 1.5rem;
+            background: var(--bg-tertiary);
+            padding: var(--space-xl);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: var(--space-lg);
         }
 
         .status-indicator {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background: var(--success-color);
             border-radius: 50%;
             animation: pulse 2s infinite;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
         }
 
         @keyframes pulse {
@@ -1347,18 +1037,19 @@
 
         .chat-messages {
             flex: 1;
-            padding: 1.5rem;
+            padding: var(--space-xl);
             overflow-y: auto;
             max-height: 60vh;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: var(--space-lg);
+            background: var(--bg-primary);
         }
 
         .message {
             display: flex;
-            gap: 0.75rem;
-            max-width: 80%;
+            gap: var(--space-md);
+            max-width: 85%;
         }
 
         .message.user {
@@ -1367,33 +1058,36 @@
         }
 
         .message-avatar {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 0.875rem;
+            font-weight: 700;
             flex-shrink: 0;
+            border: 2px solid var(--border-light);
         }
 
         .message.user .message-avatar {
             background: var(--primary-color);
             color: white;
+            border-color: var(--primary-color);
         }
 
         .message.bot .message-avatar {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
         }
 
         .message-content {
-            background: var(--bg-primary);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            padding: 1rem;
-            box-shadow: var(--shadow-sm);
+            padding: var(--space-lg) var(--space-xl);
+            box-shadow: var(--shadow-xs);
         }
 
         .message.user .message-content {
@@ -1577,35 +1271,39 @@
         }
 
         .chat-input-container {
-            padding: 1.5rem;
-            background: var(--bg-primary);
+            padding: var(--space-xl);
+            background: var(--bg-tertiary);
             border-top: 1px solid var(--border-color);
         }
 
         .chat-input-wrapper {
             display: flex;
-            gap: 0.75rem;
+            gap: var(--space-md);
             align-items: flex-end;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-md);
+            box-shadow: var(--shadow-sm);
         }
 
         .chat-input {
             flex: 1;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
+            background: transparent;
+            border: none;
             border-radius: var(--radius-lg);
-            padding: 0.75rem 1rem;
+            padding: var(--space-md) var(--space-lg);
             font-size: 1rem;
             color: var(--text-primary);
             resize: none;
-            min-height: 44px;
+            min-height: 48px;
             max-height: 120px;
             transition: all 0.2s ease;
         }
 
         .chat-input:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background: var(--bg-hover);
         }
 
         .input-controls {
@@ -1617,34 +1315,45 @@
             background: var(--primary-color);
             color: white;
             border: none;
-            border-radius: var(--radius);
-            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            padding: var(--space-md) var(--space-lg);
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 44px;
-            height: 44px;
+            min-width: 48px;
+            height: 48px;
+            font-weight: 600;
+            box-shadow: var(--shadow-xs);
         }
 
         .btn:hover {
             background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn:disabled {
             background: var(--text-muted);
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .btn-secondary {
-            background: var(--bg-tertiary);
+            background: var(--bg-card);
             color: var(--text-primary);
             border: 1px solid var(--border-color);
         }
 
         .btn-secondary:hover {
-            background: var(--border-color);
+            background: var(--bg-hover);
+            border-color: var(--border-dark);
         }
 
         .btn.recording {
@@ -1948,18 +1657,6 @@
                                 <button class="filter-btn" data-filter="tasks">With Tasks</button>
                             </div>
                             
-                            <div class="smart-actions">
-                                <button class="smart-btn" id="quickNoteBtn" title="Quick Note">
-                                    <i class="fas fa-bolt"></i>
-                                </button>
-                                <button class="smart-btn" id="templateBtn" title="Templates">
-                                    <i class="fas fa-magic"></i>
-                                </button>
-                                <button class="smart-btn" id="aiSuggestBtn" title="AI Suggestions">
-                                    <i class="fas fa-brain"></i>
-                                </button>
-                            </div>
-                            
                             <div class="notes-list" id="notesList">
                                 <!-- Notes will be loaded here -->
                             </div>
@@ -2078,7 +1775,7 @@
                     <button type="button" class="note-form-btn secondary" id="noteCancelBtn">Cancel</button>
                     <button type="submit" class="note-form-btn primary" id="noteSaveBtn">Save Note</button>
                 </div>
-            </form>
+  </form>
         </div>
     </div>
 
@@ -2869,19 +2566,6 @@
                         this.hideNoteModal();
                     }
                 });
-
-                // Smart actions
-                document.getElementById('quickNoteBtn').addEventListener('click', () => {
-                    this.createQuickNote();
-                });
-
-                document.getElementById('templateBtn').addEventListener('click', () => {
-                    this.showTemplates();
-                });
-
-                document.getElementById('aiSuggestBtn').addEventListener('click', () => {
-                    this.getAISuggestions();
-                });
             }
 
             async processNotesCommand(message) {
@@ -3190,138 +2874,6 @@
 
             saveNotes() {
                 localStorage.setItem('notes', JSON.stringify(this.notes));
-            }
-
-            // Smart Features
-            createQuickNote() {
-                const quickNote = {
-                    id: Date.now().toString(),
-                    title: `Quick Note ${new Date().toLocaleTimeString()}`,
-                    content: 'Click to edit this quick note...',
-                    tags: ['quick'],
-                    taskId: null,
-                    favorite: false,
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString()
-                };
-                
-                this.notes.unshift(quickNote);
-                this.saveNotes();
-                this.renderNotes();
-                this.updateNotesStats();
-                this.showNoteModal(quickNote.id);
-                
-                this.addMessage(`⚡ Quick note created!`, 'bot');
-            }
-
-            showTemplates() {
-                const templates = [
-                    {
-                        title: 'Meeting Notes',
-                        content: '## Meeting: [Topic]\n\n**Date:** [Date]\n**Attendees:** [List]\n\n### Agenda\n- [ ] Item 1\n- [ ] Item 2\n\n### Action Items\n- [ ] [Action] - [Assignee] - [Due Date]\n\n### Notes\n[Key points and decisions]',
-                        tags: ['meeting', 'template']
-                    },
-                    {
-                        title: 'Project Update',
-                        content: '## Project: [Project Name]\n\n**Status:** [In Progress/Completed/On Hold]\n**Progress:** [X]%\n\n### This Week\n- [What was accomplished]\n\n### Next Week\n- [What needs to be done]\n\n### Blockers\n- [Any issues or dependencies]',
-                        tags: ['project', 'template', 'update']
-                    },
-                    {
-                        title: 'Ideas & Brainstorming',
-                        content: '## 💡 Ideas\n\n### [Topic/Problem]\n\n**The Problem:**\n[Describe the problem]\n\n**Potential Solutions:**\n1. [Solution 1]\n2. [Solution 2]\n3. [Solution 3]\n\n**Next Steps:**\n- [ ] [Action item]\n- [ ] [Research needed]',
-                        tags: ['ideas', 'template', 'brainstorming']
-                    },
-                    {
-                        title: 'Daily Standup',
-                        content: '## Daily Standup - [Date]\n\n### What I did yesterday:\n- [Accomplishment 1]\n- [Accomplishment 2]\n\n### What I\'m doing today:\n- [Task 1]\n- [Task 2]\n\n### Blockers:\n- [Any impediments]',
-                        tags: ['standup', 'template', 'daily']
-                    }
-                ];
-
-                const templateHtml = templates.map((template, index) => `
-                    <div class="template-card" onclick="dudeBot.useTemplate(${index})">
-                        <h4>${template.title}</h4>
-                        <p>${template.content.substring(0, 100)}...</p>
-                        <div class="template-tags">
-                            ${template.tags.map(tag => `<span class="template-tag">${tag}</span>`).join('')}
-                        </div>
-                    </div>
-                `).join('');
-
-                this.addMessage(`📝 **Note Templates Available:**\n\n${templateHtml}`, 'bot');
-            }
-
-            useTemplate(templateIndex) {
-                const templates = [
-                    {
-                        title: 'Meeting Notes',
-                        content: '## Meeting: [Topic]\n\n**Date:** [Date]\n**Attendees:** [List]\n\n### Agenda\n- [ ] Item 1\n- [ ] Item 2\n\n### Action Items\n- [ ] [Action] - [Assignee] - [Due Date]\n\n### Notes\n[Key points and decisions]',
-                        tags: ['meeting', 'template']
-                    },
-                    {
-                        title: 'Project Update',
-                        content: '## Project: [Project Name]\n\n**Status:** [In Progress/Completed/On Hold]\n**Progress:** [X]%\n\n### This Week\n- [What was accomplished]\n\n### Next Week\n- [What needs to be done]\n\n### Blockers\n- [Any issues or dependencies]',
-                        tags: ['project', 'template', 'update']
-                    },
-                    {
-                        title: 'Ideas & Brainstorming',
-                        content: '## 💡 Ideas\n\n### [Topic/Problem]\n\n**The Problem:**\n[Describe the problem]\n\n**Potential Solutions:**\n1. [Solution 1]\n2. [Solution 2]\n3. [Solution 3]\n\n**Next Steps:**\n- [ ] [Action item]\n- [ ] [Research needed]',
-                        tags: ['ideas', 'template', 'brainstorming']
-                    },
-                    {
-                        title: 'Daily Standup',
-                        content: '## Daily Standup - [Date]\n\n### What I did yesterday:\n- [Accomplishment 1]\n- [Accomplishment 2]\n\n### What I\'m doing today:\n- [Task 1]\n- [Task 2]\n\n### Blockers:\n- [Any impediments]',
-                        tags: ['standup', 'template', 'daily']
-                    }
-                ];
-
-                const template = templates[templateIndex];
-                const newNote = {
-                    id: Date.now().toString(),
-                    title: template.title,
-                    content: template.content,
-                    tags: template.tags,
-                    taskId: null,
-                    favorite: false,
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString()
-                };
-                
-                this.notes.unshift(newNote);
-                this.saveNotes();
-                this.renderNotes();
-                this.updateNotesStats();
-                this.showNoteModal(newNote.id);
-                
-                this.addMessage(`✅ Template "${template.title}" applied!`, 'bot');
-            }
-
-            async getAISuggestions() {
-                try {
-                    const response = await fetch('/api/chat', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            message: 'Suggest some useful note templates and categories based on my current notes and tasks',
-                            context: 'ai_suggestions',
-                            notes: this.notes,
-                            todos: this.todos
-                        })
-                    });
-
-                    const data = await response.json();
-                    
-                    if (data.reply) {
-                        this.addMessage(`🧠 **AI Suggestions:**\n\n${data.reply}`, 'bot');
-                    } else {
-                        this.addMessage(`💡 **Smart Suggestions:**\n\n• Create meeting notes for your upcoming tasks\n• Add project updates for ongoing work\n• Use tags like "urgent", "important", "meeting" for better organization\n• Associate notes with specific tasks for better context`, 'bot');
-                    }
-                } catch (error) {
-                    console.error('Error getting AI suggestions:', error);
-                    this.addMessage(`💡 **Smart Suggestions:**\n\n• Create meeting notes for your upcoming tasks\n• Add project updates for ongoing work\n• Use tags like "urgent", "important", "meeting" for better organization\n• Associate notes with specific tasks for better context`, 'bot');
-                }
             }
         }
 
