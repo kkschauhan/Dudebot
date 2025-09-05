@@ -20,11 +20,11 @@
     <script defer src="/_vercel/speed-insights/script.js"></script>
   <style>
         :root {
-            /* Cred-inspired color palette */
-            --primary-color: #000000;
-            --primary-hover: #1a1a1a;
+            /* Professional color palette */
+            --primary-color: #1f2937;
+            --primary-hover: #374151;
             --secondary-color: #6b7280;
-            --accent-color: #3b82f6;
+            --accent-color: #059669;
             --success-color: #10b981;
             --warning-color: #f59e0b;
             --error-color: #ef4444;
@@ -71,18 +71,22 @@
         }
 
         [data-theme="dark"] {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111111;
-            --bg-tertiary: #1a1a1a;
-            --bg-card: #111111;
-            --bg-hover: #1a1a1a;
-            --text-primary: #ffffff;
-            --text-secondary: #e5e5e5;
-            --text-muted: #a3a3a3;
-            --text-light: #737373;
-            --border-color: #262626;
-            --border-light: #1a1a1a;
-            --border-dark: #404040;
+            --primary-color: #f9fafb;
+            --primary-hover: #e5e7eb;
+            --secondary-color: #9ca3af;
+            --accent-color: #10b981;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-card: #1e293b;
+            --bg-hover: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-light: #64748b;
+            --border-color: #334155;
+            --border-light: #1e293b;
+            --border-dark: #475569;
         }
 
         * {
@@ -108,39 +112,39 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: var(--space-2xl);
+            padding: 0 var(--space-2xl) var(--space-2xl);
             gap: var(--space-2xl);
         }
 
         .header {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-xl);
+            background: var(--bg-primary);
+            border-bottom: 2px solid var(--border-color);
             padding: var(--space-xl) var(--space-2xl);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: var(--shadow-sm);
             position: sticky;
-            top: var(--space-2xl);
+            top: 0;
             z-index: 100;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px 0 rgb(0 0 0 / 0.06);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: var(--space-md);
-            font-size: 1.75rem;
-            font-weight: 800;
+            gap: var(--space-lg);
+            font-size: 2rem;
+            font-weight: 900;
             color: var(--primary-color);
-            letter-spacing: -0.025em;
+            letter-spacing: -0.05em;
         }
 
         .logo i {
-            font-size: 2.25rem;
+            font-size: 2.5rem;
             color: var(--accent-color);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         .header-controls {
@@ -178,10 +182,13 @@
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-sm);
             padding: 0;
-            height: fit-content;
+            height: calc(100vh - 200px);
+            max-height: 700px;
             overflow: hidden;
             position: sticky;
             top: calc(var(--space-2xl) + 80px);
+            display: flex;
+            flex-direction: column;
         }
 
         /* Sidebar Tabs */
@@ -212,13 +219,14 @@
 
         .tab-btn:hover {
             background: var(--bg-hover);
-            color: var(--text-secondary);
+            color: var(--text-primary);
         }
 
         .tab-btn.active {
             background: var(--bg-card);
             color: var(--primary-color);
             box-shadow: var(--shadow-xs);
+            border: 1px solid var(--border-color);
         }
 
         .tab-btn i {
@@ -232,14 +240,21 @@
 
         .tab-content {
             padding: var(--space-xl);
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .tab-panel {
             display: none;
+            flex: 1;
+            overflow: hidden;
+            flex-direction: column;
         }
 
         .tab-panel.active {
-            display: block;
+            display: flex;
         }
 
         .sidebar h3 {
@@ -398,8 +413,8 @@
         .todo-list {
             flex: 1;
             overflow-y: auto;
-            max-height: 300px;
-            margin-bottom: 1rem;
+            margin-bottom: var(--space-lg);
+            min-height: 0;
         }
 
         .todo-item {
@@ -652,8 +667,8 @@
         .notes-list {
             flex: 1;
             overflow-y: auto;
-            max-height: 300px;
-            margin-bottom: 1rem;
+            margin-bottom: var(--space-lg);
+            min-height: 0;
         }
 
         .note-card {
@@ -950,18 +965,21 @@
             margin-top: var(--space-2xl);
             padding: var(--space-xl);
             text-align: center;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-size: 0.875rem;
             border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
         }
 
         .app-footer a {
             color: var(--accent-color);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            transition: all 0.2s ease;
         }
 
         .app-footer a:hover {
+            color: var(--primary-color);
             text-decoration: underline;
         }
 
@@ -975,7 +993,82 @@
         .notes-search:focus,
         .note-form-input:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+
+        /* Premium visual enhancements */
+        .sidebar {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+        }
+
+        .chat-container {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+        }
+
+        .note-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-hover) 100%);
+        }
+
+        .todo-item {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-hover) 100%);
+        }
+
+        /* Professional status indicator */
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
+        }
+
+        /* Enhanced button styles */
+        .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* Professional scrollbars */
+        .todo-list::-webkit-scrollbar,
+        .notes-list::-webkit-scrollbar,
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .todo-list::-webkit-scrollbar-track,
+        .notes-list::-webkit-scrollbar-track,
+        .chat-messages::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+        }
+
+        .todo-list::-webkit-scrollbar-thumb,
+        .notes-list::-webkit-scrollbar-thumb,
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--border-dark);
+            border-radius: 3px;
+        }
+
+        .todo-list::-webkit-scrollbar-thumb:hover,
+        .notes-list::-webkit-scrollbar-thumb:hover,
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
         }
 
         .categories {
