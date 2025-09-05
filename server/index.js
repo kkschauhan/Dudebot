@@ -276,7 +276,7 @@ Your goal is to be helpful, accurate, and professional in all interactions.`;
       if (!process.env.GROQ_API_KEY) {
         reply = "I'm currently unable to process your request because the AI service is not configured. Please contact your administrator to set up the Groq API key.";
       } else {
-        const response = await axios.post(
+    const response = await axios.post(
           'https://api.groq.com/openai/v1/chat/completions',
           {
             model: 'llama-3.1-8b-instant',
@@ -330,10 +330,10 @@ Your goal is to be helpful, accurate, and professional in all interactions.`;
               }
             ],
             tool_choice: "auto"
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
               Authorization: `Bearer ${process.env.GROQ_API_KEY}`
             }
           }
@@ -394,12 +394,6 @@ app.get('/api/search', (req, res) => {
   res.json({ results: results.slice(0, 5) }); // Return top 5 results
 });
 
-// For Vercel deployment, export the app instead of listening
-if (process.env.NODE_ENV === 'production') {
-  module.exports = app;
-} else {
-  // For local development, start the server
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
-}
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

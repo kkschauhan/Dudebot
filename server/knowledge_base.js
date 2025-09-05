@@ -318,7 +318,7 @@ const knowledgeBase = {
       // Direct term matches
       queryTerms.forEach(term => {
         if (contentStr.includes(term)) {
-          score += 5;
+            score += 5;
           matchedTerms.push(term);
         }
       });
@@ -338,7 +338,7 @@ const knowledgeBase = {
         if (semanticMappings[term]) {
           semanticMappings[term].forEach(semanticTerm => {
             if (contentStr.includes(semanticTerm)) {
-              score += 3;
+          score += 3;
               if (!matchedTerms.includes(term)) matchedTerms.push(term);
             }
           });
@@ -585,7 +585,7 @@ const knowledgeBase = {
   };
   
   // Helper function to process queries
-    function processQuery(query) {
+  function processQuery(query) {
     const queryLower = query.toLowerCase();
     
     // Special handling for specific questions FIRST (highest priority)
@@ -610,10 +610,10 @@ const knowledgeBase = {
       for (const result of searchResults.slice(0, 3)) { // Check top 3 results
         const answer = knowledgeBase.extractAnswer(result.id, query);
         if (answer && answer.trim().length > 10) { // Ensure we have a meaningful answer
-          return {
-            type: 'document',
+      return {
+        type: 'document',
             document: result.title,
-            answer,
+        answer,
             confidence: Math.min(result.score / 15, 1), // Normalize confidence
             matchedTerms: result.matchedTerms,
             category: result.category
