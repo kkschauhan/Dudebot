@@ -1486,7 +1486,7 @@
                 if (!message) return;
 
                 // Check for todo commands first
-                if (this.processTodoCommand(message)) {
+                if (await this.processTodoCommand(message)) {
                     this.chatInput.value = '';
                     this.chatInput.style.height = 'auto';
                     return;
